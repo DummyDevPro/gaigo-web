@@ -7,7 +7,7 @@ import QuestionsViewVue from '@/views/QuestionsView.vue'
 import QuestionChaperViewVue from '@/views/QuestionChaperView.vue'
 import ErrorPage from '@/views/404.vue'
 
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index'
 
 const routes = [
@@ -68,7 +68,8 @@ const scrollBehavior = (to, from, savedPosition) => {
 }
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
+  // history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior
 })
