@@ -53,8 +53,6 @@
 </template>
 
 <script>
-import Prism from 'vue-prism-component'
-
 export default {
     props: ['specific', 'chapter'],
     data() {
@@ -66,10 +64,12 @@ export default {
             'selectedItems': [],
         }
     },
-    components: {
-        Prism
-    },
     methods: {
+        beforeUnloadListener(event) {
+            event.preventDefault();
+            event.returnValue = "Check";
+            return false
+        },
         changeQuestion(action) {
             if (action == 'plus') {
                 this.currentIndex++;
@@ -105,7 +105,7 @@ export default {
         },
         shuffleArray(arr) {
             return arr
-            return arr.sort(() => Math.random() - 0.5)
+            // return arr.sort(() => Math.random() - 0.5)
         },
         formatChoice(str) {
             return str.split(/\\n/)
@@ -120,9 +120,30 @@ export default {
                 });
                 this.$store.dispatch('addNewDocument', {
                     'answers': this.questionsList,
-                    'total-correct-count': totalTrueCount
+                    'total-correct-count': totalTrueCount,
+                    'total-question-count': this.questionsList.length,
+                    'chapter-code-id': this.chapter
                 })
             }
+        }
+    },
+    unmounted() {
+        window.removeEventListener('beforeunload', this.beforeUnloadListener, { capture: true })
+    },
+    created() {
+        window.addEventListener('beforeunload', this.beforeUnloadListener, { capture: true })
+    },
+    beforeMount() {
+        window.addEventListener('beforeunload', this.beforeUnloadListener, { capture: true })
+    },
+    beforeRouteUpdate() { },
+    beforeRouteLeave(to, from, next) {
+        const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+        if (!answer) {
+            next(false)
+        } else {
+            // { name: to.name, replace: true }
+            next()
         }
     },
     mounted() {
@@ -142,6 +163,8 @@ export default {
                 'referenceId': 'ReferenceId'
             }
         })
+
+        const res = this.$store.getters.acquireOneChapterData({ 'questionName': this.questionName, 'chapterId': this.chapterId })
     },
     watch: {
         selectedItems: function (value) {

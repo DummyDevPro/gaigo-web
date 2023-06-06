@@ -6,9 +6,9 @@
                     <h6>コース紹介</h6>
                 </div>
                 <div class="middle-content-indexes-listes-list">
-                    <a href="#strongPoint">コースの特長</a>
-                    <a href="#certification">目指す資格</a>
-                    <a href="#curriculum">カリキュラム</a>
+                    <router-link :to="{ hash: '#_strongPoint' }">コースの特長</router-link>
+                    <router-link :to="{ hash: '#_certification' }">目指す資格</router-link>
+                    <router-link :to="{ hash: '#_curriculum' }">カリキュラム</router-link>
                 </div>
             </div>
 
@@ -17,7 +17,7 @@
                     <h6>コーチ</h6>
                 </div>
                 <div class="middle-content-indexes-listes-list">
-                    <a href="#coach">メインコーチ</a>
+                    <router-link :to="{ hash: '#_coach' }">メインコーチ</router-link>
                     <a href="" class="link-disabled">コーチ一覧</a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     <h6>学生からのメッセージ</h6>
                 </div>
                 <div class="middle-content-indexes-listes-list">
-                    <a href="#studentMsg">在校生からのメッセージ</a>
+                    <router-link :to="{ hash: '#_studentMsg' }">在校生からのメッセージ</router-link>
                     <a href="" class="link-disabled">卒業生からのメッセージ</a>
                 </div>
             </div>

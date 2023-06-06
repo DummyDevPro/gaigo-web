@@ -6,6 +6,8 @@ import PamphletViewVue from '@/views/PamphletView.vue'
 import QuestionsViewVue from '@/views/QuestionsView.vue'
 import QuestionChaperViewVue from '@/views/QuestionChaperView.vue'
 import ErrorPage from '@/views/404.vue'
+import AllYearsScheduleViewVue from '@/views/AllYearsScheduleView.vue'
+import ScheduleViewVue from '@/views/ScheduleView.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index'
@@ -42,6 +44,18 @@ const routes = [
     loginFlg: true
   },
   {
+    path: '/all-years-schedule',
+    name: 'all-years-schedule',
+    component: AllYearsScheduleViewVue,
+    loginFlg: false
+  },
+  {
+    path: '/selected-years-schedule',
+    name: 'selected-years-schedule',
+    component: ScheduleViewVue,
+    loginFlg: false
+  },
+  {
     path: '/all-mondai/questions/:specific',
     name: 'questions',
     component: QuestionsViewVue,
@@ -64,6 +78,10 @@ const routes = [
 ]
 
 const scrollBehavior = (to, from, savedPosition) => {
+  if (to.hash) {
+    return { el: to.hash, top: 120 }
+  }
+
   return savedPosition || { top: 0, left: 0 }
 }
 
@@ -78,12 +96,12 @@ router.beforeEach((to, from, next) => {
   const routeNameCheck = routes.findIndex((route) => to.name == route.name)
   if (routeNameCheck != -1) {
     if (routes[routeNameCheck].loginFlg && store.getters.acquireUserID == null) {
-      next({ name: 'home' })
+      next({ name: 'home', replace: true })
     } else {
       next()
     }
   } else {
-    next({ name: 'not-found' })
+    next({ name: 'not-found', replace: true })
   }
 })
 

@@ -7,11 +7,11 @@
         <div class="overflow-hidden">
             <top-header />
             <course-imp-info />
-            <course-merit id="strongPoint" />
-            <aim-certifications id="certification" />
-            <curriculum id="curriculum" />
-            <coach id="coach" />
-            <student-message id="studentMsg" />
+            <course-merit id="_strongPoint" />
+            <aim-certifications id="_certification" />
+            <curriculum id="_curriculum" />
+            <coach id="_coach" />
+            <student-message id="_studentMsg" />
         </div>
 
         <!-- <contact-us /> -->

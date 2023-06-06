@@ -8,7 +8,8 @@ export default createStore({
     userRole: 0, // 0 : everyone, 1 : member, 2 : admin
     userInfo: {
       'uid': null,
-      'displayName': null
+      'displayName': null,
+      'photoUrl': null,
     },
     loginModalMsg: '',
     loginModalState: null,
@@ -45,6 +46,9 @@ export default createStore({
     }
   },
   getters: {
+    acquireUserInfo: state => {
+      return state.userInfo
+    },
     acquireUserID: state => {
       return state.userInfo.uid
     },
@@ -53,6 +57,10 @@ export default createStore({
     },
     logoutModalState: state => {
       return state.logoutModalState
+    },
+    acquireOneChapterData: state => obj => {
+      console.log(obj);
+      console.log(state.collectionData['chapterData'][obj.questionName]);
     },
     acquireChapterData: state => collectionName => {
       return state.collectionData['chapterData'][collectionName]

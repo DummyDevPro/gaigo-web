@@ -11,9 +11,9 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li v-if="getUserID != null">
+                    <!-- <li v-if="getUserID != null">
                         <router-link :to="{ name: 'web-pamphlet' }" class="nav-link">パンフレット</router-link>
-                    </li>
+                    </li> -->
 
                     <li v-if="getUserID != null">
                         <router-link :to="{ name: 'all-mondai' }" class="nav-link">問題一覧</router-link>
