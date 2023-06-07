@@ -104,8 +104,8 @@ export default {
             return htmlCode
         },
         shuffleArray(arr) {
-            return arr
-            // return arr.sort(() => Math.random() - 0.5)
+            // return arr
+            return arr.sort(() => Math.random() - 0.5)
         },
         formatChoice(str) {
             return str.split(/\\n/)
@@ -151,7 +151,7 @@ export default {
             (_, getters) => getters.acquireQuestionsData(this.questionName),
             (newValue, _) => {
                 this.questionsList = this.shuffleArray(newValue)
-                this.currentIndex = newValue.length - 1
+                // this.currentIndex = newValue.length - 1
             }
         )
 
