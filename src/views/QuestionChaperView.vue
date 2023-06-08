@@ -174,6 +174,9 @@ export default {
             (_, getters) => getters.acquireQuestionsData(this.questionName),
             (newValue, _) => {
                 this.questionsList = this.shuffleArray(newValue)
+                if (this.questionsList != null && this.questionsList.length > 0) {
+                    this.questionsList[0]['your_ans_keys'] = []
+                }
                 // this.currentIndex = newValue.length - 1
             }
         )
@@ -291,8 +294,8 @@ export default {
 }
 
 @media (max-width: 991.98px) {
-    .questions-grid>div {
-        /* flex: 0 0 95%; */
-    }
+    /* .questions-grid>div { */
+    /* flex: 0 0 95%; */
+    /* } */
 }
 </style>
