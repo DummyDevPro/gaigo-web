@@ -16,19 +16,30 @@
         <section class="exam-result-layout px-3">
             <h4>Your Exam Results</h4>
             <div class="ps-3 pe-3">
-                <table class="table caption-top">
+                <table class="table caption-top table-hover">
                     <thead>
                         <tr>
-                            <th>Uploaded Date</th>
-                            <th>Uploaded Time</th>
+                            <th>Uploaded DateTime</th>
+                            <th>Start Time</th>
+                            <th>Finish Time</th>
+                            <!-- <th>Uploaded Time</th> -->
                             <th>Result</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="ans in answersData">
-                            <td>{{ convertTimeStampToDate(ans['uploaded-time']) }}</td>
-                            <td>{{ convertTimeStampToTime(ans['uploaded-time']) }}</td>
-                            <td>{{ ans['total-correct-count'] + '/' + ans['answers']?.length }}</td>
+                    <tbody class="align-middle">
+                        <tr v-if="answersData.length == 0">
+                            <td colspan="100%" class="text-center">There is no exam records.</td>
+                        </tr>
+                        <tr @click="moveToExamResultDetailsPage(ans.docId)" v-for="ans in answersData"
+                            title="Click On Show Details" class="align-middle">
+                            <td>
+                                {{ convertTimeStampToDate(ans?.['uploaded-time']) }} <br>
+                                {{ convertTimeStampToTime(ans?.['uploaded-time']) }}
+                            </td>
+                            <td>{{ convertTimeStampToDate(ans?.['started-time']) }}</td>
+                            <td>{{ convertTimeStampToDate(ans?.['finish-time']) }}</td>
+                            <!-- <td>{{ convertTimeStampToTime(ans?.['uploaded-time']) }}</td> -->
+                            <td>{{ ans?.['total-correct-count'] + '/' + ans?.['answers']?.length }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -46,6 +57,13 @@ export default {
         }
     },
     methods: {
+        moveToExamResultDetailsPage(uid) {
+            this.$router.push({
+                name: 'exam-result-by-id', params: {
+                    'examId': uid
+                }
+            })
+        },
         convertTimeStampToTime(timestamp) {
             let date = new Date(timestamp.seconds * 1000)
             let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
@@ -55,6 +73,10 @@ export default {
             return fullTime
         },
         convertTimeStampToDate(timestamp) {
+            if (timestamp == null) {
+                return '-'
+            }
+
             let date = new Date(timestamp.seconds * 1000)
             let year = date.getFullYear()
             let month = date.getMonth()
@@ -120,5 +142,9 @@ export default {
 
 .profile-img-layout>img {
     width: 150px;
+}
+
+.exam-result-layout table tbody tr {
+    cursor: pointer;
 }
 </style>

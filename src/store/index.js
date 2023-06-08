@@ -59,14 +59,20 @@ export default createStore({
       return state.logoutModalState
     },
     acquireOneChapterData: state => obj => {
-      console.log(obj);
-      console.log(state.collectionData['chapterData'][obj.questionName]);
+      return state.collectionData?.['chapterData']?.[obj.questionName]?.filter(
+        (data) => data['chapter-code-id'] == obj.chapterId
+      )
     },
     acquireChapterData: state => collectionName => {
       return state.collectionData['chapterData'][collectionName]
     },
     acquireQuestionsData: state => collectionName => {
       return state.collectionData['questionData'][collectionName]
+    },
+    acquireOneAnswersData: state => obj => {
+      return state.collectionData['answerData'][obj.key]?.filter(
+        (data) => data.docId == obj.docId
+      )
     },
     acquireAnswersData: state => collectionName => {
       return state.collectionData['answerData'][collectionName]

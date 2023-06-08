@@ -1,6 +1,8 @@
 <template>
     <div class="container p-3">
         <div class="col-12 col-sm-12 col-md-12 col-lg-6 m-auto accordion" id="accordionExample">
+            <div v-if="!getChaptersData" class="loading">
+            </div>
             <div class="accordion-item" v-for="ques in getChaptersData">
                 <h2 class="accordion-header" :id="'heading' + ques['docId']">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

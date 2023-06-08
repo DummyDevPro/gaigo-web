@@ -49,3 +49,33 @@ html {
 .m-b-5 {
   margin-bottom: 5rem;
 }
+
+.loading {
+  position: relative;
+  background-color: rgb(58, 58, 143);
+  color: white;
+  width: 7rem;
+  height: 7rem;
+  margin: 5rem auto;
+  border-radius: 50%;
+  animation: loadingFadeInOut 1s infinite;
+}
+
+.loading::before {
+  content: "LOADING";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  font-weight: bold;
+}
+
+@keyframes loadingFadeInOut {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}

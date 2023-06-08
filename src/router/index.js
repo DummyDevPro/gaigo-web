@@ -8,6 +8,7 @@ import QuestionChaperViewVue from '@/views/QuestionChaperView.vue'
 import ErrorPage from '@/views/404.vue'
 import AllYearsScheduleViewVue from '@/views/AllYearsScheduleView.vue'
 import ScheduleViewVue from '@/views/ScheduleView.vue'
+import ExamResultDetailsViewVue from '@/views/ExamResultDetailsView.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index'
@@ -35,6 +36,13 @@ const routes = [
     path: '/profile',
     name: 'user-profile',
     component: UserProfileViewVue,
+    loginFlg: true
+  },
+  {
+    path: '/exam-result/:examId',
+    name: 'exam-result-by-id',
+    component: ExamResultDetailsViewVue,
+    props: true,
     loginFlg: true
   },
   {
