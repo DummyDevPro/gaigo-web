@@ -93,7 +93,7 @@ async function readDataFB(collectionName, condition, orderName) {
     return responseArr;
 }
 
-async function addNewDocumentFB(data, collectionName = 'user_answers_collection') {
+async function addNewDocumentFB(data, collectionName = 'user_answers_collection_v1') {
     console.log(auth.currentUser.uid);
     try {
         const docRef = await addDoc(collection(db, collectionName), {
