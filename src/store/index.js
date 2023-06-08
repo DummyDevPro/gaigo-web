@@ -21,7 +21,7 @@ export default createStore({
     },
     collectionNameMap: {
       'all': {
-        'Answer': 'user_answers_collection',
+        'Answer': 'user_answers_collection_v1',
         'loginUserId': 'uid'
       },
       'java-bronze': {
