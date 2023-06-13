@@ -36,6 +36,7 @@ logEvent(analytics, "make-db-connection");
 async function loginActionFB(email, password, callback) {
     await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+            console.log(userCredential);
             // Signed in pass
             const user = userCredential.user;
 
