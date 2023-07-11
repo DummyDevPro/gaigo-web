@@ -1,3 +1,4 @@
+import query from "./query"
 export default {
     userRole: 0, // 0 : everyone, 1 : member, 2 : admin
     userInfo: {
@@ -8,34 +9,16 @@ export default {
     loginModalMsg: '',
     loginModalState: null,
     logoutModalState: null,
+    collectionRelation: query,
     collectionData: {
         'chapterData': {},
         'questionData': {},
         'answerData': {}
     },
-    collectionNameMap: {
-        'all': {
-            'Answer': 'user_answers_collection_v1',
-            'loginUserId': 'uid'
-        },
-        'java-bronze': {
-            'Chapter': 'java_bronze_overview_collection',
-            'Question': 'questions_collection',
-            'ReferenceId': 'chapter-code-id'
-        }
-    },
-    orderMap: {
-        'java-bronze': {
-            'Chapter': 'chapter-title',
-            'Question': 'id'
-        },
-        'all': {
-            'Answer': 'uploaded-time'
-        }
-    },
     collectionDataType: {
-        'Chapter': 'chapterData',
-        'Question': 'questionData',
-        'Answer': 'answerData'
-    }
+        'chapter': 'chapterData',
+        'question': 'questionData',
+        'answer': 'answerData'
+    },
+    errorToast: null
 }

@@ -8,6 +8,9 @@ export default {
     loginModalState: state => {
         return state.loginModalState
     },
+    loginModalMsgState: state => {
+        return state.loginModalMsg
+    },
     logoutModalState: state => {
         return state.logoutModalState
     },

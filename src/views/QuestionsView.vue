@@ -73,7 +73,14 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('getCollectionData', { 'collectionName': this.collectionName, 'collectionType': 'Chapter' })
+        // java-bronze
+        this.$store.dispatch('getCollectionData', {
+            firstAccessCode: this.collectionName,
+            method: 'get',
+            collectionKey: 'chapter',
+            // whereValue: this.$store.getters.acquireUserInfo.uid,
+            // whereOperator: '=='
+        })
     }
 }
 </script>

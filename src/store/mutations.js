@@ -14,7 +14,7 @@ export default {
         } else {
             state.userInfo.uid = null
             state.userInfo.displayName = null
-            state.loginModalMsg = `Login Error(${response.errorMessage})`
+            state.loginModalMsg = `Login Error : (${response.code})`
 
             state.loginModalState = false
         }
@@ -38,5 +38,8 @@ export default {
         state.collectionData[state.collectionDataType[obj.collectionType]][obj.collectionName] = obj.response
     },
     addNewDocumentState: (state, res) => {
+    },
+    updateErrorToastState: (state, error) => {
+        console.log(error);
     }
 }

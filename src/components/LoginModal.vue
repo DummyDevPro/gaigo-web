@@ -9,6 +9,9 @@
                 </div>
 
                 <div class="modal-body">
+                    <div v-if="errorMsg != ''" class="bg-danger text-white p-3 mb-3">
+                        {{ errorMsg }}
+                    </div>
                     <form @submit.prevent="loginAction">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">メールアドレス<small
@@ -41,7 +44,8 @@ export default {
     data() {
         return {
             'email': '',
-            'password': ''
+            'password': '',
+            'errorMsg': ''
         }
     },
     methods: {
@@ -63,6 +67,15 @@ export default {
                     this.password = ''
                     this.$refs.close.click();
                     this.$store.dispatch('updateLoginModal')
+                }
+            }
+        )
+
+        this.$store.watch(
+            (_, getters) => getters.loginModalMsgState,
+            (newValue, _) => {
+                if (newValue != '' && newValue != null) {
+                    this.errorMsg = newValue
                 }
             }
         )

@@ -25,20 +25,29 @@ export default {
         context.commit('updateLogoutModalState')
     },
     getCollectionData(context, obj) {
-        const collectionName = context.state.collectionNameMap[obj.collectionName][obj.collectionType]
-        const condition = obj.where == null ? '' : { 'one': context.state.collectionNameMap[obj.collectionName][obj.where.referenceId], 'two': obj.where.chapterId }
-        const orderCol = context.state.orderMap[obj.collectionName][obj.collectionType]
-
+        const prepareData = context
+            .state
+            .collectionRelation[obj.firstAccessCode][obj.method][obj.collectionKey]
+        const collectionName = prepareData.collectionName
+        const condition =
+            prepareData.where == null || obj.whereValue == null ? '' : [
+                { key: prepareData.where, opt: obj.whereOperator, value: obj.whereValue }
+            ]
+        const order = [prepareData.order]
         readCollectionFB(collectionName
             , condition
-            , orderCol
+            , order
             , (response) => {
-                context.commit('getCollectionDataState',
-                    {
-                        response: response.data,
-                        collectionName: obj.collectionName,
-                        collectionType: obj.collectionType
-                    })
+                if (response.status == 'error') {
+                    context.commit('updateErrorToastState', response)
+                } else {
+                    context.commit('getCollectionDataState',
+                        {
+                            response: response.data,
+                            collectionName: prepareData.saveCollectionName,
+                            collectionType: obj.collectionKey
+                        })
+                }
             })
     },
     addNewDocument(context, obj) {

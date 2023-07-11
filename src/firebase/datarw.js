@@ -1,6 +1,6 @@
 import { app } from '@/firebase/setup'
 import { auth } from '@/firebase/auth'
-import { analytics,logEvent } from '@/firebase/analytics'
+import { analytics, logEvent } from '@/firebase/analytics'
 import {
     getFirestore,
     collection,
@@ -16,21 +16,22 @@ const db = getFirestore(app);
 
 logEvent(analytics, "make-db-connection");
 
-async function readCollectionFB(collectionName, condition, orderName, callback) {
+async function readCollectionFB(collectionName, condition, order, callback) {
 
     try {
         let responseArr = [];
-        const q = query(collection(db, collectionName),
-            condition == '' ? '' : equalWhere(condition.one, condition.two),
-            orderBy(orderName));
+        let whereList = generateWhereList(condition)
+        let orderList = generateOrderList(order)
+        const q = query(collection(db, collectionName), ...whereList, ...orderList);
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             responseArr.push({ 'docId': doc.id, ...doc.data() })
         });
 
-        callback({ 'data': responseArr })
+        callback({ 'data': responseArr, 'status': 'success' })
     } catch (error) {
-        callback({ ...error })
+        console.log(error);
+        callback({ ...error, 'status': 'error' })
     }
 }
 
@@ -42,14 +43,27 @@ async function addNewDocumentFB(data, callback, collectionName = 'user_answers_c
             ...data
         });
 
-        callback({ 'data': docRef.id })
+        callback({ 'data': docRef.id, 'status': 'success' })
     } catch (error) {
-        callback({ ...error })
+        console.log(error);
+        callback({ ...error, 'status': 'error' })
     }
 }
 
-function equalWhere(one, two) {
-    return where(one, "==", two);
+function generateOrderList(data) {
+    let list = []
+    for (let i = 0; i < data.length; i++) {
+        list.push(orderBy(data[i].name, data[i].type))
+    }
+    return list
+}
+
+function generateWhereList(data) {
+    let list = []
+    for (let i = 0; i < data.length; i++) {
+        list.push(where(data[i].key, data[i].opt, data[i].value))
+    }
+    return list
 }
 
 export {
