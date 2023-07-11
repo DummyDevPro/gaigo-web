@@ -62,8 +62,8 @@
                     <button @click="changeQuestion('plus')" class="g-web-bg p-2 next rounded"
                         :class="currentIndex == (answerData['answers'].length - 1) ? 'btn-remove' : ''">次</button>
 
-                    <button @click="addNewDocument" class="btn btn-success"
-                        v-if="currentIndex == (answerData['answers'].length - 1)">完了</button>
+                    <button @click="backToProfile" class="btn btn-success"
+                        v-if="currentIndex == (answerData['answers'].length - 1)">プロフィールへ戻る</button>
                 </div>
             </div>
         </div>
@@ -79,6 +79,9 @@ export default {
         }
     },
     methods: {
+        backToProfile() {
+            this.$store.dispatch('backOneHistory')
+        },
         changeQuestion(action) {
             if (action == 'plus') {
                 this.currentIndex++;
@@ -121,6 +124,12 @@ export default {
 }
 </script>
 <style scoped>
+.btn-remove {
+    display: none;
+    /* background-color: gray;
+    pointer-events: none; */
+}
+
 .text-output {
     margin: 0;
 }

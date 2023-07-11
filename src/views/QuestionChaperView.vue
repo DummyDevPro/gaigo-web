@@ -117,7 +117,7 @@ export default {
             return htmlCode
         },
         shuffleArray(arr) {
-            return arr
+            // return arr
             return arr.sort(() => Math.random() - 0.5)
         },
         formatChoice(str) {
@@ -177,7 +177,7 @@ export default {
                 if (this.questionsList != null && this.questionsList.length > 0) {
                     this.questionsList[0]['your_ans_keys'] = []
                 }
-                this.currentIndex = newValue.length - 1
+                // this.currentIndex = newValue.length - 1
             }
         )
 
@@ -206,7 +206,7 @@ export default {
             }
             this.questionsList[this.currentIndex]['your_ans_keys'] = value
 
-            console.log(JSON.stringify(this.questionsList[this.currentIndex]))
+            // console.log(JSON.stringify(this.questionsList[this.currentIndex]))
         }
     }
 }

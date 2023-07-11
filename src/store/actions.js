@@ -59,4 +59,7 @@ export default {
             }
         })
     },
+    backOneHistory(context) {
+        router.go(-1);
+    }
 }
