@@ -1,6 +1,6 @@
 <template>
     <div class="home-grid">
-        <div class="l-aside d-none d-lg-block vh-rm-nav">
+        <div class="l-aside d-lg-block vh-rm-nav">
             <left-aside />
         </div>
 
@@ -63,8 +63,13 @@ export default {
 
 @media (max-width: 991.98px) {
     .home-grid {
-        display: grid;
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .home-grid>*:first-child {
+        height: fit-content;
     }
 }
 

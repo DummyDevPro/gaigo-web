@@ -28,4 +28,22 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+@media (max-width: 991.98px) {
+
+    .left-aside-content {
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .account-info-form {
+        width: fit-content;
+        flex-direction: row !important;
+    }
+
+    .account-info-form button {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+</style>
