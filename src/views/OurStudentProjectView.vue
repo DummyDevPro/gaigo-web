@@ -2,7 +2,7 @@
     <div v-if="projectsList.length == 0" class="text-center py-5">
         <strong>{{ projectLoadMsg }}</strong>
     </div>
-    <div v-else class="row gy-3 py-5 px-3">
+    <div v-else class="row gy-3 py-5 px-3 m-0">
         <!-- d-flex flex-wrap px-3 py-5 gap-4 -->
         <div v-for="project in projectsList" class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <div class="card">
