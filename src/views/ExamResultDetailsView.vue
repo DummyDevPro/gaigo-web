@@ -115,7 +115,7 @@ export default {
     },
     created() {
         this.answerData = this.$store.getters.acquireOneAnswersData({
-            'key': 'all',
+            'key': 'all-answers',
             'docId': this.examId
         })?.[0]
 

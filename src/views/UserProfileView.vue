@@ -14,7 +14,7 @@
         </section>
 
         <section class="exam-result-layout px-3">
-            <h4>Your Exam Results</h4>
+            <h4>試験結果の履歴</h4>
             <div class="ps-3 pe-3">
 
                 <div v-if="filterAnswersData.length != 0"
@@ -44,10 +44,10 @@
                     </thead>
                     <tbody class="align-middle">
                         <tr v-if="filterAnswersData.length == 0">
-                            <td colspan="100%" class="text-center">There is no exam records.</td>
+                            <td colspan="100%" class="text-center">{{ tableDataMsg }}</td>
                         </tr>
 
-                        <tr @click="moveToExamResultDetailsPage(ans.docId)" v-for="ans in filterAnswersData"
+                        <tr v-else @click="moveToExamResultDetailsPage(ans.docId)" v-for="ans in filterAnswersData"
                             title="Click On Show Details" class="align-middle">
                             <td>
                                 {{ convertTimeStampToDate(ans?.['uploaded-time']) }} <br>
@@ -69,6 +69,7 @@ import personIcon from "@/assets/img/person_icon.png";
 export default {
     data() {
         return {
+            'tableDataMsg': `Fetching your exam's answers data`,
             'answersData': [],
             'filterAnswersData': [],
             'personIcon': personIcon,
@@ -148,6 +149,8 @@ export default {
                             this.filterAnswersData.push(this.answersData[i])
                         }
                     }
+                } else {
+                    this.tableDataMsg = `There is no exam's answer data.`
                 }
             }
         )
