@@ -32,5 +32,8 @@ export default {
     },
     acquireAnswersData: state => collectionName => {
         return state.collectionData['answerData'][collectionName]
+    },
+    acquireProjectData: state => collectionName => {
+        return state.collectionData['projectData'][collectionName]
     }
 }

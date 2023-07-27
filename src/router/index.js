@@ -9,6 +9,7 @@ import ErrorPage from '@/views/404.vue'
 import AllYearsScheduleViewVue from '@/views/AllYearsScheduleView.vue'
 import ScheduleViewVue from '@/views/ScheduleView.vue'
 import ExamResultDetailsViewVue from '@/views/ExamResultDetailsView.vue'
+import OurStuedntProjectViewVue from '@/views/OurStudentProjectView.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index'
@@ -24,6 +25,12 @@ const routes = [
     path: '/contact-us',
     name: 'contact-us',
     component: ContactUsViewVue,
+    loginFlg: false
+  },
+  {
+    path: '/student-projects',
+    name: 'student-projects',
+    component: OurStuedntProjectViewVue,
     loginFlg: false
   },
   {

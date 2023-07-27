@@ -134,7 +134,7 @@ export default {
     },
     mounted() {
         this.$store.watch(
-            (_, getters) => getters.acquireAnswersData('all'),
+            (_, getters) => getters.acquireAnswersData('all-answers'),
             (newValue, _) => {
                 this.answersData = newValue
                 this.totalAnswersDataCount = this.answersData.length

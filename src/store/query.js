@@ -2,12 +2,20 @@ export default {
     'all': {
         get: {
             answer: {
-                saveCollectionName: 'all',
+                saveCollectionName: 'all-answers',
                 collectionName: 'user_answers_collection_v1',
                 where: 'uid',
                 order: {
                     name: 'uploaded-time',
                     type: 'desc'
+                }
+            },
+            project: {
+                saveCollectionName: 'all-projects',
+                collectionName: 'student_projects',
+                order: {
+                    name: 'project_end_date',
+                    type: 'asc'
                 }
             }
         }

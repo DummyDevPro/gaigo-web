@@ -13,12 +13,14 @@ export default {
     collectionData: {
         'chapterData': {},
         'questionData': {},
-        'answerData': {}
+        'answerData': {},
+        'projectData': {}
     },
     collectionDataType: {
         'chapter': 'chapterData',
         'question': 'questionData',
-        'answer': 'answerData'
+        'answer': 'answerData',
+        'project': 'projectData'
     },
     errorToast: null
 }
