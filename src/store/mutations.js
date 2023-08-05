@@ -41,5 +41,6 @@ export default {
     },
     updateErrorToastState: (state, error) => {
         console.log(error);
+        state.errorToast = error
     }
 }

@@ -159,8 +159,10 @@ export default {
             firstAccessCode: 'all',
             method: 'get',
             collectionKey: 'answer',
-            whereValue: this.$store.getters.acquireUserInfo.uid,
-            whereOperator: '=='
+            where: [{
+                whereValue: this.$store.getters.acquireUserInfo.uid,
+                whereOperator: '=='
+            }],
         })
     }
 }

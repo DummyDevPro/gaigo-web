@@ -29,10 +29,16 @@ export default {
             .state
             .collectionRelation[obj.firstAccessCode][obj.method][obj.collectionKey]
         const collectionName = prepareData.collectionName
-        const condition =
-            prepareData.where == null || obj.whereValue == null ? '' : [
-                { key: prepareData.where, opt: obj.whereOperator, value: obj.whereValue }
-            ]
+        let condition = '';
+        if (prepareData.where != null && obj.where) {
+            condition = [];
+            for (let i = 0; i < obj.where.length; i++) {
+                condition.push(
+                    { key: prepareData.where[i], opt: obj.where[i].whereOperator, value: obj.where[i].whereValue }
+                )
+            }
+        }
+
         const order = [prepareData.order]
         readCollectionFB(collectionName
             , condition

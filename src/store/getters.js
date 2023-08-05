@@ -35,5 +35,8 @@ export default {
     },
     acquireProjectData: state => collectionName => {
         return state.collectionData['projectData'][collectionName]
+    },
+    acquireScheduleData: state => collectionName => {
+        return state.collectionData['schedulesData'][collectionName]
     }
 }

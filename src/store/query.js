@@ -4,7 +4,7 @@ export default {
             answer: {
                 saveCollectionName: 'all-answers',
                 collectionName: 'user_answers_collection_v1',
-                where: 'uid',
+                where: ['uid'],
                 order: {
                     name: 'uploaded-time',
                     type: 'desc'
@@ -13,6 +13,7 @@ export default {
             project: {
                 saveCollectionName: 'all-projects',
                 collectionName: 'student_projects',
+                where: null,
                 order: {
                     name: 'project_end_date',
                     type: 'asc'
@@ -34,7 +35,7 @@ export default {
             question: {
                 saveCollectionName: 'java-bronze',
                 collectionName: 'questions_collection',
-                where: 'chapter-code-id',
+                where: ['chapter-code-id'],
                 order: {
                     name: 'id',
                     type: 'asc'
@@ -43,5 +44,19 @@ export default {
         },
         post: {
         },
+    },
+    'year-schedule': {
+        get: {
+            schedules: {
+                saveCollectionName: 'year-schedule',
+                collectionName: 'all_years_schedule',
+                where: ['school_year', 'grade'],
+                order: {
+                    name: 'part',
+                    type: 'asc'
+                }
+            }
+        },
+        post: {}
     }
 }

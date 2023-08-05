@@ -185,8 +185,10 @@ export default {
             firstAccessCode: this.questionName,
             method: 'get',
             collectionKey: 'question',
-            whereValue: this.chapterId,
-            whereOperator: '=='
+            where: [{
+                whereValue: this.chapterId,
+                whereOperator: '=='
+            }],
         })
 
         this.overallContent = this.$store.getters.acquireOneChapterData({ 'questionName': this.questionName, 'chapterId': this.chapterId })

@@ -65,9 +65,10 @@ const routes = [
     loginFlg: false
   },
   {
-    path: '/selected-years-schedule',
+    path: '/selected-years-schedule/:year/:grade',
     name: 'selected-years-schedule',
     component: ScheduleViewVue,
+    props: true,
     loginFlg: false
   },
   {

@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-dark g-web-bg sticky-top py-3">
+    <nav id="top-nav-bar" class="navbar navbar-expand-md navbar-dark g-web-bg sticky-top py-3">
         <div class="container-fluid">
             <router-link :to="{ name: 'home' }" class="navbar-brand" aria-current="page">
                 Webプログラミングコース
@@ -24,7 +24,7 @@
 
                     <router-link :to="{ name: 'student-projects' }" class="nav-link">学生製品</router-link>
 
-                    <a class="nav-link" href="#services">サービス</a>
+                    <router-link :to="{ name: 'all-years-schedule' }" class="nav-link">年間スケジュール</router-link>
 
                     <!-- <li class="nav-item">
                         <router-link to="/" class="nav-link active">About</router-link>

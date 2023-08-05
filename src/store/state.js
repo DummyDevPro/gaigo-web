@@ -14,13 +14,15 @@ export default {
         'chapterData': {},
         'questionData': {},
         'answerData': {},
-        'projectData': {}
+        'projectData': {},
+        'schedulesData': {}
     },
     collectionDataType: {
         'chapter': 'chapterData',
         'question': 'questionData',
         'answer': 'answerData',
-        'project': 'projectData'
+        'project': 'projectData',
+        'schedules': 'schedulesData'
     },
     errorToast: null
 }

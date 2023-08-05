@@ -1,217 +1,142 @@
 <template>
-    <div class="schedule-wrapper col-11 col-sm-11 col-md-10 col-lg-8">
-        <h1 class="text-center">2022 : First Year</h1>
-        <div class="schedule">
-            <table class="table table-bordered border-dark text-center">
-                <caption class="caption-top text-center">
-                    <h2>First Semester</h2>
-                </caption>
-                <thead class="align-middle">
-                    <tr>
-                        <th rowspan="4">曜日</th>
-                        <th colspan="5">４月～９月</th>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2">１コマ目</th>
-                        <th colspan="2">２コマ目</th>
-                        <th>３コマ目</th>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2">１・２限目</th>
-                        <th colspan="2">３・４限目</th>
-                        <th>５限目</th>
-                    </tr>
-
-                    <tr>
-                        <th>09:30～10:15</th>
-                        <th>09:15～11:00</th>
-                        <th>11:10～11:55</th>
-                        <th>11:55～12:40</th>
-                        <th>12:50～13:35</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <th>月</th>
-                        <td colspan="4">Web Template Basic(HTML,CSS)</td>
-                        <td>自習</td>
-                    </tr>
-                    <tr>
-                        <th>火</th>
-                        <td colspan="3">IT Fundamental</td>
-                        <td colspan="2">JLPT(染谷先生)</td>
-                    </tr>
-                    <tr>
-                        <th>水</th>
-                        <td colspan="4">Computer Basic(冨山先生)</td>
-                        <td class="bg-black"></td>
-                    </tr>
-                    <tr>
-                        <th>木</th>
-                        <td colspan="4">Web Programming Language Basic(Javascript)</td>
-                        <td>自習</td>
-                    </tr>
-                    <tr>
-                        <th>金</th>
-                        <td colspan="4">日本語検定対策I 合同(読解聴解)</td>
-                        <td>JLPT(染谷先生)</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table table-bordered border-dark text-center">
-                <caption class="caption-top text-center">
-                    <h2>Second Semester | Part 1</h2>
-                </caption>
-                <thead class="align-middle">
-                    <tr>
-                        <th rowspan="4">曜日</th>
-                        <th colspan="5">１０月～１２月</th>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2">１コマ目</th>
-                        <th colspan="2">２コマ目</th>
-                        <th>３コマ目</th>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2">１・２限目</th>
-                        <th colspan="2">３・４限目</th>
-                        <th>５限目</th>
-                    </tr>
-
-                    <tr>
-                        <th>09:30～10:15</th>
-                        <th>09:15～11:00</th>
-                        <th>11:10～11:55</th>
-                        <th>11:55～12:40</th>
-                        <th>12:50～13:35</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <th>月</th>
-                        <td colspan="4">
-                            Web Template <br>
-                            HTML + CSS(中級)
-                        </td>
-                        <td>自習</td>
-                    </tr>
-                    <tr>
-                        <th>火</th>
-                        <td colspan="3">
-                            Web Programming Language <br>
-                            Javascript(中級)
-                        </td>
-                        <td colspan="2">JLPT(染谷先生)</td>
-                    </tr>
-                    <tr>
-                        <th>水</th>
-                        <td colspan="4">
-                            Web Programming Language <br>
-                            Javascript(中級)
-                        </td>
-                        <td class="bg-black"></td>
-                    </tr>
-                    <tr>
-                        <th>木</th>
-                        <td colspan="4">
-                            Web Programming Language <br>
-                            Javascript(中級)
-                        </td>
-                        <td>自習</td>
-                    </tr>
-                    <tr>
-                        <th>金</th>
-                        <td colspan="4">日本語検定対策I 合同(読解聴解)</td>
-                        <td>JLPT(染谷先生)</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table table-bordered border-dark text-center">
-                <caption class="caption-top text-center">
-                    <h2>Second Semester | Part 2</h2>
-                </caption>
-                <thead class="align-middle">
-                    <tr>
-                        <th rowspan="4">曜日</th>
-                        <th colspan="5">１月～３月</th>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2">１コマ目</th>
-                        <th colspan="2">２コマ目</th>
-                        <th>３コマ目</th>
-                    </tr>
-
-                    <tr>
-                        <th colspan="2">１・２限目</th>
-                        <th colspan="2">３・４限目</th>
-                        <th>５限目</th>
-                    </tr>
-
-                    <tr>
-                        <th>09:30～10:15</th>
-                        <th>09:15～11:00</th>
-                        <th>11:10～11:55</th>
-                        <th>11:55～12:40</th>
-                        <th>12:50～13:35</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <th>月</th>
-                        <td colspan="4">
-                            Frontend Development <br>
-                            (HTML, CSS, Javascript)
-                        </td>
-                        <td>自習</td>
-                    </tr>
-                    <tr>
-                        <th>火</th>
-                        <td colspan="3">
-                            ウェブサーバー管理言語 <br>
-                            (Java Basic Oracle)
-                        </td>
-                        <td colspan="2">JLPT(染谷先生)</td>
-                    </tr>
-                    <tr>
-                        <th>水</th>
-                        <td colspan="4">
-                            ウェブサーバー管理言語 <br>
-                            (Java Basic Oracle)
-                        </td>
-                        <td class="bg-dark"></td>
-                    </tr>
-                    <tr>
-                        <th>木</th>
-                        <td colspan="4">
-                            ウェブサーバー管理言語 <br>
-                            (Java Basic Oracle)
-                        </td>
-                        <td>自習</td>
-                    </tr>
-                    <tr>
-                        <th>金</th>
-                        <td colspan="4">日本語検定対策I 合同(読解聴解)</td>
-                        <td>JLPT(染谷先生)</td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- {{ schedules }} -->
+    <div class="px-1">
+        <h2 id="page-title" class="text-center page-title-sticky bg-white py-2 m-0">
+            <span>{{ year }}年</span>
+            <span v-if="grade == '01'">1年生</span>
+            <span v-if="grade == '02'">2年生</span>の全カリキュラム
+        </h2>
+        <div class="text-center" v-if="schedules == null || schedules.length == 0">
+            {{ scheduleFetchingStateMsg }}
+        </div>
+        <div v-else class="col border">
+            <!-- col-sm-11 col-md-8 p-0 -->
+            <div v-for="schedule in schedules">
+                <div class="g-web-bg p-3 text-white text-center schedule-sticky rounded-bottom schedule-title">
+                    <strong>{{ schedule['part_period_text'] }}</strong>
+                </div>
+                <div class="day-list row m-0">
+                    <div v-for="day in schedule['days']" class="day p-2 border-g-web col-md-6 col-lg-4">
+                        <div class="day-name">
+                            <strong v-if="day['day_code'] == 1">月曜日</strong>
+                            <strong v-if="day['day_code'] == 2">火曜日</strong>
+                            <strong v-if="day['day_code'] == 3">水曜日</strong>
+                            <strong v-if="day['day_code'] == 4">木曜日</strong>
+                            <strong v-if="day['day_code'] == 5">金曜日</strong>
+                        </div>
+                        <div v-for="(lecture, index) in day['lectures']"
+                            :class="index != day['lectures'].length - 1 ? 'border-bottom' : ''"
+                            class="fw-light lecture p-2">
+                            <table>
+                                <tr>
+                                    <td class="td-style">科目名</td>
+                                    <td class="td-style">：</td>
+                                    <td>{{ lecture['lecture_name'] }}</td>
+                                </tr>
+                                <tr v-if="getUserID">
+                                    <td class="td-style">講師名</td>
+                                    <td class="td-style">：</td>
+                                    <td>{{ lecture['lecturer'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="td-style">時限目</td>
+                                    <td class="td-style">：</td>
+                                    <td><span class="badge bg-danger">{{ lecture['lecture_period'] }}</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
+export default {
+    props: ['year', 'grade'],
+    data() {
+        return {
+            scheduleFetchingStateMsg: `Fetching Data From Server!`,
+            schedules: null
+        }
+    },
+    computed: {
+        getUserID() {
+            return this.$store.getters.acquireUserID
+        }
+    },
+    mounted() {
+        // Sticking page title and schedule title
+        const pageTitle = document.getElementById('page-title')
+        const topNavBar = document.getElementById('top-nav-bar')
+        let topNavBarHeight = 72
+        if (topNavBar) {
+            topNavBarHeight = topNavBar.clientHeight
+
+            pageTitle.style.top = `${topNavBarHeight}px`
+        }
+        addEventListener("scroll", () => {
+            if (topNavBar) {
+                topNavBarHeight = topNavBar.clientHeight
+
+                pageTitle.style.top = `${topNavBarHeight}px`
+            }
+
+            let scheduleTitle = document.getElementsByClassName('schedule-title')
+            if (scheduleTitle && scheduleTitle.length > 0) {
+                for (let i = 0; i < scheduleTitle.length; i++) {
+                    let totalHeight = topNavBarHeight + pageTitle.clientHeight
+                    scheduleTitle[i].style.top = `${totalHeight}px`
+                }
+            }
+        })
+
+        this.$store.watch(
+            (_, getters) => getters.acquireScheduleData('year-schedule'),
+            (newValue, _) => {
+                this.schedules = newValue
+                if (this.schedules == null || this.schedules.length == 0) {
+                    this.scheduleFetchingStateMsg = `Data Not Found!`
+                }
+            }
+        )
+
+        this.$store.dispatch('getCollectionData', {
+            firstAccessCode: 'year-schedule',
+            method: 'get',
+            collectionKey: 'schedules',
+            where: [
+                {
+                    whereValue: parseInt(this.year),
+                    whereOperator: '=='
+                },
+                {
+                    whereValue: this.grade,
+                    whereOperator: '=='
+                }
+            ],
+        })
+    }
+}
 </script>
 <style scoped>
-.schedule-wrapper {
-    margin: 0 auto;
+.schedule-sticky {
+    position: sticky;
+    top: 120px;
+    left: 0;
+    z-index: 1;
+}
+
+.page-title-sticky {
+    position: sticky;
+    top: 72px;
+    left: 0;
+    z-index: 2;
+}
+
+.td-style {
+    white-space: nowrap;
+    vertical-align: top;
+    text-align: justify;
 }
 </style>
