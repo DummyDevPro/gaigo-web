@@ -1,6 +1,6 @@
 import { signInWithEmailAndPasswordFB, signOutFB } from '@/firebase/auth'
 import { readCollectionFB, addNewDocumentFB } from '@/firebase/datarw'
-
+import { googleSigninWithPopup } from '@/firebase/googleAuth'
 import router from '@/router'
 
 export default {
@@ -67,5 +67,8 @@ export default {
     },
     backOneHistory(context) {
         router.go(-1);
+    },
+    googleSigninWithPopupAction() {
+        googleSigninWithPopup();
     }
 }

@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 const firebaseConfig = {
     apiKey: "AIzaSyBb02u8O0xSzGQynNd_-TzVPp1EnD-VRWo",
     authDomain: "gaigo-6a1df.firebaseapp.com",
+    databaseURL: "https://gaigo-6a1df-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "gaigo-6a1df",
     storageBucket: "gaigo-6a1df.appspot.com",
     messagingSenderId: "20940403760",
