@@ -19,24 +19,43 @@ export default {
             (data) => data['chapter-code-id'] == obj.chapterId
         )
     },
-    acquireChapterData: state => collectionName => {
-        return state.collectionData['chapterData'][collectionName]
+    acquireChapterData: state => saveCollectionName => {
+        return state.collectionData['chapterData'][saveCollectionName]
     },
-    acquireQuestionsData: state => collectionName => {
-        return state.collectionData['questionData'][collectionName]
+    acquireQuestionsData: state => saveCollectionName => {
+        return state.collectionData['questionData'][saveCollectionName]
     },
     acquireOneAnswersData: state => obj => {
         return state.collectionData['answerData'][obj.key]?.filter(
             (data) => data.docId == obj.docId
         )
     },
-    acquireAnswersData: state => collectionName => {
-        return state.collectionData['answerData'][collectionName]
+    acquireAnswersData: state => saveCollectionName => {
+        return state.collectionData['answerData'][saveCollectionName]
     },
-    acquireProjectData: state => collectionName => {
-        return state.collectionData['projectData'][collectionName]
+    acquireProjectData: state => saveCollectionName => {
+        return state.collectionData['projectData'][saveCollectionName]
     },
-    acquireScheduleData: state => collectionName => {
-        return state.collectionData['schedulesData'][collectionName]
+    acquireScheduleData: state => saveCollectionName => {
+        return state.collectionData['schedulesData'][saveCollectionName]
+    },
+    acquireUserProfileData: state => saveCollectionName => {
+        return state.collectionData['userProfileData'][saveCollectionName]
+    },
+    acquireProfileImageFromSession: state => {
+        // console.log('-----');
+        // console.log(state.profile.profileImageUrl.length);
+        // if (state.profile.profileImageUrl.length == 0) {
+        //     loadLocalStorage('profile-image', (datUrl) => {
+        //         console.log('asdfghj');
+        //         return state.profile.profileImageUrl = datUrl
+        //     })
+        // }
+        // console.log('-----');
+        return state.profile.profileImageUrl
+    },
+    acquireAllImages: state => {
+        console.log('Repunch');
+        return state.profile.allImages
     }
 }

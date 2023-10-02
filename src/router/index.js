@@ -10,9 +10,15 @@ import AllYearsScheduleViewVue from '@/views/AllYearsScheduleView.vue'
 import ScheduleViewVue from '@/views/ScheduleView.vue'
 import ExamResultDetailsViewVue from '@/views/ExamResultDetailsView.vue'
 import OurStuedntProjectViewVue from '@/views/OurStudentProjectView.vue'
+import RenewPasswordViewVue from '@/views/RenewPasswordView.vue'
+import CreateAccountViewVue from '@/views/CreateAccountView.vue'
+import ResetPasswordViewVue from '@/views/ResetPasswordView.vue'
+// import DashboardHomeViewVue from '@/views/DashboardHomeView.vue'
+import ExamHistoryViewVue from '@/views/ExamHistoryView.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index'
+
 
 const routes = [
   {
@@ -20,6 +26,25 @@ const routes = [
     name: 'home',
     component: HomeViewVue,
     loginFlg: false
+  },
+  {
+    path: '/renew-pass',
+    name: 'renew-pass',
+    component: RenewPasswordViewVue,
+    loginFlg: false
+  },
+  {
+    path: '/create-acccount',
+    name: 'create-acccount',
+    component: CreateAccountViewVue,
+    loginFlg: false
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: ResetPasswordViewVue,
+    loginFlg: false,
+    props: true,
   },
   {
     path: '/contact-us',
@@ -83,6 +108,18 @@ const routes = [
     name: 'questions-chapter',
     component: QuestionChaperViewVue,
     props: true,
+    loginFlg: true
+  },
+  // {
+  //   path: '/user/dashboard',
+  //   name: 'user-dashboard-home',
+  //   component: DashboardHomeViewVue,
+  //   loginFlg: true
+  // },
+  {
+    path: '/user/exam/history',
+    name: 'user-exam-history',
+    component: ExamHistoryViewVue,
     loginFlg: true
   },
   {

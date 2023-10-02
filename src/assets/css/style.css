@@ -75,6 +75,10 @@ html {
   font-weight: bold;
 }
 
+.full-width {
+  width: 100%;
+}
+
 @keyframes loadingFadeInOut {
   0% {
     opacity: 0.25;

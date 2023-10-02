@@ -15,15 +15,17 @@
                         <router-link :to="{ name: 'all-mondai' }" class="nav-link">問題一覧</router-link>
                     </li>
 
+                    <router-link :to="{ name: 'student-projects' }" class="nav-link">学生製品</router-link>
+
                     <li v-if="getUserID != null">
                         <router-link :to="{ name: 'user-profile' }" class="nav-link">プロフィール</router-link>
                     </li>
+
                     <!-- <li v-if="getUserID != null">
                         <router-link :to="{ name: 'web-pamphlet' }" class="nav-link">パンフレット</router-link>
                     </li> -->
 
-                    <router-link :to="{ name: 'student-projects' }" class="nav-link">学生製品</router-link>
-
+                    <!-- TODO: User Role -> Visible only admin -->
                     <router-link :to="{ name: 'all-years-schedule' }" class="nav-link">年間スケジュール</router-link>
 
                     <!-- <li class="nav-item">
@@ -40,19 +42,31 @@
                     <!-- <router-link :to="{ name: 'contact-us' }" class="nav-link">お問い合わせ</router-link> -->
                     <!-- <a class="nav-link" href="#contactus">お問い合わせ</a> -->
                     <!-- </li> -->
-                    <router-link :to="{ name: 'contact-us' }" class="nav-link">お問い合わせ</router-link>
+
+                    <!-- TODO: Temporary Remove -->
+                    <!-- <router-link :to="{ name: 'contact-us' }" class="nav-link">お問い合わせ</router-link> -->
+
+                    <button v-if="getUserID != null" class="btn btn-logout" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">ログアウト</button>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <logout-modal></logout-modal>
 </template>
 
 <script>
+import LogoutModal from './LogoutModal.vue';
+
 export default {
     data() {
         return {
             uid: null
         }
+    },
+    components: {
+        'logout-modal': LogoutModal
     },
     computed: {
         getUserID() {
@@ -77,5 +91,16 @@ export default {
     font-size: 1.25rem !important;
     letter-spacing: 1px;
     font-weight: 600;
+}
+
+.btn-logout {
+    background-color: var(--color-white);
+    color: var(--color-g-web);
+    transition: all .2s ease;
+}
+
+.btn-logout:hover {
+    color: white;
+    outline: 1px solid white;
 }
 </style>

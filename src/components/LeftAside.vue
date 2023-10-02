@@ -7,7 +7,7 @@
             </div>
 
             <div v-if="getUserID == null" class="create-acc">
-                <button @click="googleSigninWithPopupAction" class="btn btn-outline-primary w-100">Google SignIn</button>
+                <button @click="createNewAccount" class="btn btn-outline-primary w-100">新規作成</button>
             </div>
 
             <div v-if="getUserID != null" class="logout-acc">
@@ -26,9 +26,8 @@ export default {
         }
     },
     methods: {
-        // this.$store.dispatch('addNewDocument'
-        googleSigninWithPopupAction() {
-            this.$store.dispatch('googleSigninWithPopupAction')
+        createNewAccount() {
+            this.$store.dispatch('createNewAccountWithEmailAndPassword')
         }
     }
 }

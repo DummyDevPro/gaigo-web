@@ -8,13 +8,37 @@ import {
     where,
     orderBy,
     getDocs,
+    doc,
+    setDoc,
+    getDoc,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    updateDoc
 } from "firebase/firestore";
 
 const db = getFirestore(app);
 
 logEvent(analytics, "make-db-connection");
+
+async function readSingleDocument(collectionName, docId, callback) {
+    try {
+        const docRef = doc(db, collectionName, docId);
+        const docSnap = await getDoc(docRef);
+        callback({ 'data': docSnap.data(), 'myStatus': 'success' })
+    } catch (error) {
+        callback({ ...error, 'myStatus': 'error' })
+    }
+}
+
+async function addNewDocumentByCustomDocId(collectionName, docId, data, callback) {
+    try {
+        const cityRef = doc(db, collectionName, docId)
+        await setDoc(cityRef, data, { merge: true })
+        callback({ 'myStatus': 'success' })
+    } catch (error) {
+        callback({ ...error, 'myStatus': 'error' })
+    }
+}
 
 async function readCollectionFB(collectionName, condition, order, callback) {
 
@@ -25,35 +49,54 @@ async function readCollectionFB(collectionName, condition, order, callback) {
         const q = query(collection(db, collectionName), ...whereList, ...orderList);
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            responseArr.push({ 'docId': doc.id, ...doc.data() })
+            responseArr.push({ ...doc.data(), 'docId': doc.id })
         });
 
-        callback({ 'data': responseArr, 'status': 'success' })
+        callback({ 'data': responseArr, 'myStatus': 'success' })
     } catch (error) {
-        console.log(error);
-        callback({ ...error, 'status': 'error' })
+        console.error(error)
+        callback({ ...error, 'myStatus': 'error' })
     }
 }
 
-async function addNewDocumentFB(data, callback, collectionName = 'user_answers_collection_v1') {
+async function addNewDocumentFB(data, callback, collectionName = 'user_answers') {
     try {
         const docRef = await addDoc(collection(db, collectionName), {
+            ...data,
             'uid': auth.currentUser.uid,
-            'uploaded-time': serverTimestamp(),
-            ...data
+            'uploaded-time': serverTimestamp()
         });
 
-        callback({ 'data': docRef.id, 'status': 'success' })
+        callback({ 'data': docRef.id, 'myStatus': 'success' })
     } catch (error) {
-        console.log(error);
-        callback({ ...error, 'status': 'error' })
+        callback({ ...error, 'myStatus': 'error' })
+    }
+}
+
+async function updateExistingDocumentFB(data, collectionName, docId, callback) {
+    try {
+        // readSingleDocument(collectionName, docId, ((response) => {
+        addNewDocumentByCustomDocId(collectionName, docId, data, callback)
+        // if (response.data) {
+        //     updateDoc(doc(db, collectionName, docId), data).then((res) => {
+        //         callback({ ...data, 'myStatus': 'success' })
+        //     }).catch((error) => {
+        //         callback({ ...error, 'myStatus': 'error' })
+        //     })
+        // } else {
+        //     addNewDocumentFB(data, callback, collectionName)
+        // }
+        // }))
+    } catch (error) {
+        callback({ ...error, 'myStatus': 'error' })
     }
 }
 
 function generateOrderList(data) {
     let list = []
     for (let i = 0; i < data.length; i++) {
-        list.push(orderBy(data[i].name, data[i].type))
+        if (data[i])
+            list.push(orderBy(data[i].name, data[i].type))
     }
     return list
 }
@@ -61,12 +104,15 @@ function generateOrderList(data) {
 function generateWhereList(data) {
     let list = []
     for (let i = 0; i < data.length; i++) {
-        list.push(where(data[i].key, data[i].opt, data[i].value))
+        if (data[i])
+            list.push(where(data[i].key, data[i].opt, data[i].value))
     }
     return list
 }
 
 export {
     readCollectionFB,
-    addNewDocumentFB
+    readSingleDocument,
+    addNewDocumentFB,
+    updateExistingDocumentFB
 }

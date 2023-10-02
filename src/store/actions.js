@@ -1,6 +1,24 @@
-import { signInWithEmailAndPasswordFB, signOutFB } from '@/firebase/auth'
-import { readCollectionFB, addNewDocumentFB } from '@/firebase/datarw'
-import { googleSigninWithPopup } from '@/firebase/googleAuth'
+import {
+    handleCreateUserWithEmailAndPassword,
+    handleSignInWithEmailAndPassword,
+    handleSignOut,
+    handleResetPassword,
+    handleSendPasswordResetEmail,
+    handleVerifyPasswordResetCode
+} from '@/firebase/auth'
+
+import {
+    readCollectionFB,
+    addNewDocumentFB,
+    updateExistingDocumentFB,
+    readSingleDocument
+} from '@/firebase/datarw'
+
+import {
+    handleFileUpload,
+    handleFileDownloadListUp
+} from '@/firebase/storage'
+
 import router from '@/router'
 
 export default {
@@ -8,13 +26,13 @@ export default {
         context.commit('initializeAppState')
     },
     loginAction(context, { 'email': email, 'password': password }) {
-        signInWithEmailAndPasswordFB(email, password, (response) => {
+        handleSignInWithEmailAndPassword(email, password, (response) => {
             context.commit('loginActionState', response)
         })
     },
     logoutAction(context) {
-        signOutFB((res) => {
-            console.log(res);
+        handleSignOut((response) => {
+            console.log(response);
         });
         context.commit('logoutActionState')
     },
@@ -40,25 +58,45 @@ export default {
         }
 
         const order = [prepareData.order]
-        readCollectionFB(collectionName
-            , condition
-            , order
-            , (response) => {
-                if (response.status == 'error') {
-                    context.commit('updateErrorToastState', response)
-                } else {
-                    context.commit('getCollectionDataState',
-                        {
-                            response: response.data,
-                            collectionName: prepareData.saveCollectionName,
-                            collectionType: obj.collectionKey
-                        })
-                }
-            })
+
+        if (obj.docId) {
+            readSingleDocument(
+                collectionName,
+                obj.docId,
+                ((response) => {
+                    if (response.myStatus == 'error') {
+                        // context.commit('updateErrorToastState', response)
+                    } else {
+                        context.commit('getCollectionDataState',
+                            {
+                                response: response.data,
+                                collectionName: prepareData.saveCollectionName,
+                                collectionType: obj.collectionKey
+                            })
+                    }
+                })
+            )
+        } else {
+            readCollectionFB(collectionName
+                , condition
+                , order
+                , (response) => {
+                    if (response.myStatus == 'error') {
+                        // context.commit('updateErrorToastState', response)
+                    } else {
+                        context.commit('getCollectionDataState',
+                            {
+                                response: response.data,
+                                collectionName: prepareData.saveCollectionName,
+                                collectionType: obj.collectionKey
+                            })
+                    }
+                })
+        }
     },
     addNewDocument(context, obj) {
-        addNewDocumentFB(obj, (res) => {
-            if (res != null) {
+        addNewDocumentFB(obj, (response) => {
+            if (response != null) {
                 router.replace({
                     name: 'user-profile'
                 })
@@ -68,7 +106,77 @@ export default {
     backOneHistory(context) {
         router.go(-1);
     },
-    googleSigninWithPopupAction() {
-        googleSigninWithPopup();
+    createNewAccountWithEmailAndPassword() {
+    },
+    resetPassword(context, { oobCode: oobCode, password: password }) {
+        handleResetPassword(oobCode, password, (response) => {
+            context.commit('loginActionState', response)
+            router.push({ path: '/' })
+            router.removeRoute('reset-password')
+        })
+    },
+    renewPasswordByMail(context, { email: email }) {
+        handleSendPasswordResetEmail(email, (response) => {
+            context.commit('shortMsg', { pageId: 'renewPass', ...response })
+        })
+    },
+    resetPasswordLinkValidCheck(context, { oobCode: oobCode }) {
+        handleVerifyPasswordResetCode(oobCode, (response) => {
+            context.commit('shortMsg', { ...response, pageId: 'resetPass' })
+        })
+    },
+    getProfileImageDataUrl(context) {
+        context.commit('getProfileImageDataUrlState')
+    },
+    fileUpload(context, { file: file, fileType: fileType, saveFileFolderName: saveFileFolderName, docId: docId }) {
+
+        // update firebase storage/images
+        handleFileUpload(
+            file,
+            fileType,
+            saveFileFolderName,
+            (response) => {
+                if (response.myStatus === 'success') {
+
+                    // save to firebase/firestore (collection : accounts)
+                    if (saveFileFolderName === 'profile') {
+                        updateExistingDocumentFB(
+                            {
+                                profileImageUrl: response.fileUrl,
+                            },
+                            'accounts',
+                            docId,
+                            (response) => {
+
+                                // TODO: Next time
+                                // get latest user profile information
+                                // context.dispatch('getCollectionData', {
+                                //     firstAccessCode: 'profile',
+                                //     method: 'get',
+                                //     collectionKey: 'account',
+                                //     where: [
+                                //         {
+                                //             whereValue: uid,
+                                //             whereOperator: '=='
+                                //         }
+                                //     ],
+                                // })
+                            })
+
+                        // update state
+                        context
+                            .commit('updateAndSaveProfileImageUrlAsDataUrl',
+                                { file: file, key: 'profile-image' })
+                    }
+
+                }
+            })
+    },
+    getAllImages(context) {
+        handleFileDownloadListUp((response) => {
+            if (response.myStatus === 'success') {
+                context.commit('handleFileDownloadListUpState', response)
+            }
+        })
     }
 }

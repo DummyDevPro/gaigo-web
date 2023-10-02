@@ -170,6 +170,10 @@ export default {
         // }
     },
     mounted() {
+
+        console.log(this.specific);
+        console.log(this.chapter);
+
         this.$store.watch(
             (_, getters) => getters.acquireQuestionsData(this.questionName),
             (newValue, _) => {

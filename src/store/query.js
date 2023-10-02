@@ -1,9 +1,17 @@
 export default {
+    'profile': {
+        get: {
+            account: {
+                saveCollectionName: 'user-profile',
+                collectionName: 'accounts',
+            }
+        }
+    },
     'all': {
         get: {
             answer: {
                 saveCollectionName: 'all-answers',
-                collectionName: 'user_answers_collection_v1',
+                collectionName: 'user_answers',
                 where: ['uid'],
                 order: {
                     name: 'uploaded-time',
@@ -25,7 +33,7 @@ export default {
         get: {
             chapter: {
                 saveCollectionName: 'java-bronze',
-                collectionName: 'java_bronze_overview_collection',
+                collectionName: 'java_bronze_overview',
                 where: null,
                 order: {
                     name: 'chapter-code-id',
@@ -34,7 +42,31 @@ export default {
             },
             question: {
                 saveCollectionName: 'java-bronze',
-                collectionName: 'questions_collection',
+                collectionName: 'java_bronze_questions',
+                where: ['chapter-code-id'],
+                order: {
+                    name: 'id',
+                    type: 'asc'
+                },
+            }
+        },
+        post: {
+        },
+    },
+    'java-basic': {
+        get: {
+            chapter: {
+                saveCollectionName: 'java-basic',
+                collectionName: 'java_basic_overview',
+                where: null,
+                order: {
+                    name: 'chapter-code-id',
+                    type: 'asc'
+                },
+            },
+            question: {
+                saveCollectionName: 'java-basic',
+                collectionName: 'java_basic_questions',
                 where: ['chapter-code-id'],
                 order: {
                     name: 'id',

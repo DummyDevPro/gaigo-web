@@ -1,29 +1,22 @@
 <template>
-    <!-- <div v-if="getUserID != null">
-        <left-aside />
-    </div>
-
-    <div v-if="getUserID == null">
-        <web-pamphlet />
-    </div> -->
-    <web-pamphlet />
-
-    <login-modal></login-modal>
-    <logout-modal></logout-modal>
+    <section v-if="getUserID">
+        <dashboard-home-view />
+        <!-- <user-profile-view /> -->
+    </section>
+    <section v-else>
+        <login-view />
+    </section>
 </template>
-
 <script>
-import LeftAside from '@/components/LeftAside.vue';
-import WebPamphlet from '@/components/WebPamphlet.vue';
-import LoginModal from '@/components/LoginModal.vue';
-import LogoutModal from '@/components/LogoutModal.vue';
+import UserProfileView from './UserProfileView.vue'
+import LoginView from './LoginView.vue'
+import DashboardHomeView from './DashboardHomeView.vue'
 
 export default {
     components: {
-        'left-aside': LeftAside,
-        'web-pamphlet': WebPamphlet,
-        'login-modal': LoginModal,
-        'logout-modal': LogoutModal,
+        'user-profile-view': UserProfileView,
+        'dashboard-home-view': DashboardHomeView,
+        'login-view': LoginView,
     },
     computed: {
         getUserID() {
@@ -32,3 +25,4 @@ export default {
     }
 }
 </script>
+<style scoped></style>

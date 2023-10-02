@@ -33,6 +33,10 @@ export default {
             (newValue, _) => {
                 if (newValue) {
                     this.$refs.close.click();
+                    this.$router.replace({
+                        name: 'home'
+                    })
+                    // reset
                     this.$store.dispatch('updateLogoutModal')
                 }
             }

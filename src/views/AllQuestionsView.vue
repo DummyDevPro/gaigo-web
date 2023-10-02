@@ -1,5 +1,5 @@
 <template>
-    <div class="all-mondai-grid mt-3">
+    <div class="all-mondai-grid my-5 px-5">
         <all-questions />
     </div>
 </template>
@@ -15,17 +15,17 @@ export default {
 
 <style scoped>
 .all-mondai-grid {
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
+    /* justify-content: center; */
 }
 
 .all-mondai-grid>div {
-    flex: 0 0 50%;
+    /* flex: 0 0 50%; */
 }
 
 @media (max-width: 991.98px) {
     .all-mondai-grid>div {
-        flex: 0 0 90%;
+        /* flex: 0 0 90%; */
     }
 }
 </style>

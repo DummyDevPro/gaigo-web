@@ -1,173 +1,253 @@
 <template>
     <div class="profile-layout">
-        <section class="user-info-layout text-center mx-auto">
-            <!-- <a href=""><i class="bi bi-pencil-square"></i></a> -->
-            <div v-if="getUserID">
-                <div class="profile-img-layout p-2">
-                    <a class="disabled"><i class="bi bi-pencil-square"></i>Edit</a>
-                    <img class="profile-img" :src="getUserID.photoUrl != null ? getUserID.photoUrl : personIcon" alt="">
-                </div>
-                <div class="g-web-bg text-white">
-                    <p class="fs-5 m-0">{{ getUserID.displayName != null ? getUserID.displayName : '' }}</p>
+        <div class="profile-image">
+            <div class="profile-image-preview" :style="{
+                'background-color': 'gray',
+                'background-image': previewImg == null ? `url(${require('../assets/img/person-default.png')})` : `url(${previewImg})`,
+                'background-position': 'center',
+                'background-size': 'cover',
+                'background-repeat': 'no-repeat'
+            }">
+                <img @click="handleSelectFile" src="../assets/img/camera-fill.svg" alt="" class="btn-camera-img">
+            </div>
+            <div class="image-choose-upload">
+                <input type="file" @change="selectFile" accept="image/*" ref="fileInput" hidden>
+                <input type="button" class="btn btn-success" value="保存" @click="uploadProfileImage"
+                    :disabled="!selectedFile">
+            </div>
+        </div>
+
+        <!-- <hr> -->
+
+        <nav class="bg-white">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <div class="d-none d-sm-block col-sm-2"></div>
+                <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                    type="button" role="tab" aria-controls="nav-profile" aria-selected="true">
+                    Profile
+                </button>
+                <button @click="loadAllImagesBtnClick" class="nav-link" id="nav-gallery-tab" data-bs-toggle="tab"
+                    data-bs-target="#nav-gallery" type="button" role="tab" aria-controls="nav-gallery"
+                    aria-selected="false">
+                    Gallery
+                </button>
+                <!-- <button class="nav-link" id="nav-friend-tab" data-bs-toggle="tab" data-bs-target="#nav-friend" type="button"
+                    role="tab" aria-controls="nav-friend" aria-selected="false">
+                    Friends
+                </button> -->
+            </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="d-flex flex-column align-items-center my-5">
+                    <div class="col-10 col-sm-8 col-md-6 mb-3">
+                        <label for="userName" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="userName" v-model="userName">
+                    </div>
+                    <div class="col-10 col-sm-8 col-md-6 mb-3">
+                        <label for="emailAddress" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="emailAddress" v-model="userEmail" disabled>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <section class="exam-result-layout px-3">
-            <h4>試験結果の履歴</h4>
-            <div class="ps-3 pe-3">
-
-                <div v-if="filterAnswersData.length != 0"
-                    class="table-controller d-flex align-items-center gap-2 justify-content-end">
-                    <span>
-                        Showing <span>{{ currentFilterPageStartNumber }}</span>
-                        to {{ currentFilterPage * filterLimit > totalAnswersDataCount ? totalAnswersDataCount :
-                            currentFilterPage * filterLimit }}
-                        of {{ totalAnswersDataCount }}
-                    </span>
-                    <i @click="updateFilterAnswersData('minus')" :class="currentFilterPage == 1 ? 'd-none' : 'd-block'"
-                        class="bi bi-caret-left left-icon"></i>
-                    <i @click="updateFilterAnswersData('plus')"
-                        :class="currentFilterPage == filterCount ? 'd-none' : 'd-block'"
-                        class="bi bi-caret-right right-icon"></i>
+            <div class="tab-pane fade" id="nav-gallery" role="tabpanel" aria-labelledby="nav-gallery-tab">
+                <div class="gallery">
+                    <div v-for="item in galleryData">
+                        <!-- {{ item }} -->
+                        <img :src="item" alt="">
+                    </div>
                 </div>
-
-                <table class="table caption-top table-hover">
-                    <thead>
-                        <tr>
-                            <th>Uploaded DateTime</th>
-                            <th>Start Time</th>
-                            <th>Finish Time</th>
-                            <!-- <th>Uploaded Time</th> -->
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        <tr v-if="filterAnswersData.length == 0">
-                            <td colspan="100%" class="text-center">{{ tableDataMsg }}</td>
-                        </tr>
-
-                        <tr v-else @click="moveToExamResultDetailsPage(ans.docId)" v-for="ans in filterAnswersData"
-                            title="Click On Show Details" class="align-middle">
-                            <td>
-                                {{ convertTimeStampToDate(ans?.['uploaded-time']) }} <br>
-                                {{ convertTimeStampToTime(ans?.['uploaded-time']) }}
-                            </td>
-                            <td>{{ convertTimeStampToDate(ans?.['started-time']) }}</td>
-                            <td>{{ convertTimeStampToDate(ans?.['finish-time']) }}</td>
-                            <!-- <td>{{ convertTimeStampToTime(ans?.['uploaded-time']) }}</td> -->
-                            <td>{{ ans?.['total-correct-count'] + '/' + ans?.['answers']?.length }}</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
-        </section>
+
+            <!-- <div class="tab-pane fade" id="nav-friend" role="tabpanel" aria-labelledby="nav-friend-tab">
+                ...
+            </div> -->
+        </div>
     </div>
 </template>
 <script>
-import personIcon from "@/assets/img/person_icon.png";
+import personIcon from "@/assets/img/no-preview.png"
 export default {
     data() {
         return {
-            'tableDataMsg': `Fetching your exam's answers data`,
-            'answersData': [],
-            'filterAnswersData': [],
             'personIcon': personIcon,
-            'totalAnswersDataCount': 0,
-            'filterLimit': 5,
-            'filterCount': 0,
-            'currentFilterPageStartNumber': 1,
-            'currentFilterPage': 1,
+            // profile image
+            'selectedFile': null,
+            'previewImg': null,
+
+            // allImages
+            galleryData: new Set(),
+
+            // other info
+            userName: '',
+            userEmail: '',
         }
     },
     methods: {
-        updateFilterAnswersData(key) {
-            if (key == 'plus') {
-                this.currentFilterPage++
-            } else {
-                this.currentFilterPage--
-            }
-            const start = (this.currentFilterPage - 1) * this.filterLimit
-            const stop = this.currentFilterPage * this.filterLimit
-            this.currentFilterPageStartNumber = start + 1
-            this.filterAnswersData = []
-            for (let i = start; i < stop; i++) {
-                if (this.answersData[i] && this.answersData[i] != undefined) {
-                    this.filterAnswersData.push(this.answersData[i])
-                }
-            }
-        },
-        moveToExamResultDetailsPage(uid) {
-            this.$router.push({
-                name: 'exam-result-by-id', params: {
-                    'examId': uid
-                }
-            })
-        },
-        convertTimeStampToTime(timestamp) {
-            let date = new Date(timestamp.seconds * 1000)
-            let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
-            let minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
-            let seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
-            let fullTime = hours + ":" + minutes + ":" + seconds
-            return fullTime
-        },
-        convertTimeStampToDate(timestamp) {
-            if (timestamp == null) {
-                return '-'
-            }
+        selectFile(event) {
+            if (event.target.files && event.target.files[0]) {
 
-            let date = new Date(timestamp.seconds * 1000)
-            let year = date.getFullYear()
-            let month = date.getMonth()
-            let day = date.getDate()
-            let fullDate = year + "/" + (month + 1) + "/" + day
-            return fullDate
+                // Image file read & write
+                const reader = new FileReader
+                reader.onload = e => {
+                    this.previewImg = e.target.result
+                }
+                reader.readAsDataURL(event.target.files[0])
+
+                this.selectedFile = event.target.files[0]
+            }
+        },
+        uploadProfileImage() {
+            if (this.selectedFile) {
+                this.$store.dispatch('fileUpload', {
+                    file: this.selectedFile,
+                    fileType: 'image',
+                    saveFileFolderName: 'profile',
+                    docId: this.getFirebaseUserInfo.uid
+                })
+
+                this.selectedFile = null
+                // TODO: get the state of finish file upload
+                setTimeout(() => {
+                    this.loadAllImagesBtnClick()
+                }, 1000);
+            }
+        },
+        handleSelectFile() {
+            this.$refs.fileInput.click()
+        },
+        loadAllImagesBtnClick() {
+            console.log('----');
+            this.$store.dispatch('getAllImages')
         }
-    },
-    components: {
-
     },
     computed: {
-        getUserID() {
+        getFirebaseUserInfo() {
             return this.$store.getters.acquireUserInfo
+        },
+        loadUserProfile: {
+            get() {
+                return this.$store.getters.acquireUserProfileData('user-profile')
+            }
+        },
+        loadAllImages() {
+            return this.$store.getters.acquireAllImages
         }
     },
-    mounted() {
-        this.$store.watch(
-            (_, getters) => getters.acquireAnswersData('all-answers'),
-            (newValue, _) => {
-                this.answersData = newValue
-                this.totalAnswersDataCount = this.answersData.length
-                if (this.totalAnswersDataCount > 0) {
-                    this.filterCount = Math.ceil(this.totalAnswersDataCount / this.filterLimit)
+    watch: {
+        loadUserProfile: {
+            immediate: true,
+            deep: true,
+            handler(newVal, _) {
+                if (newVal) {
+                    this.userName = newVal.userName
+                    // this.userEmail = newVal.userEmail
+                    this.userEmail = this.getFirebaseUserInfo.emailAddress
 
-                    let start = this.currentFilterPage - 1
-                    let stop = this.currentFilterPage * this.filterLimit
-                    for (let i = start; i < stop; i++) {
-                        if (this.answersData[i] && this.answersData[i] != undefined) {
-                            this.filterAnswersData.push(this.answersData[i])
-                        }
+                    if (!this.previewImg || this.previewImg !== newVal.profileImageUrl) {
+                        this.previewImg = newVal.profileImageUrl
                     }
-                } else {
-                    this.tableDataMsg = `There is no exam's answer data.`
                 }
             }
-        )
+        },
+        loadAllImages(newVal, oldVal) {
+            console.log('+++');
+            console.log(newVal);
+            setTimeout(() => {
+                console.log('Delay');
+                if (Array.isArray(newVal)) {
+                    this.galleryData.clear()
+                    const sort2 = [...newVal].sort()
+                    for (let i = sort2.length - 1; i >= 0; i--) {
+                        this.galleryData.add(sort2[i])
+                    }
+                }
+            }, 1000);
+        }
+        // loadAllImages: {
+        //     immediate: true,
+        //     deep: true,
+        //     async handler(newVal, __) {
+        // setTimeout(() => {
+        //     if (Array.isArray(newVal)) {
+        //         this.galleryData.clear()
+        //         const sort2 = [...newVal].sort()
+        //         for (let i = sort2.length - 1; i >= 0; i--) {
+        //             this.galleryData.add(sort2[i])
+        //         }
+        //     }
+        // }, 1000);
+        //     },
+        // }
+    },
+    mounted() {
 
-        this.$store.dispatch('getCollectionData', {
-            firstAccessCode: 'all',
-            method: 'get',
-            collectionKey: 'answer',
-            where: [{
-                whereValue: this.$store.getters.acquireUserInfo.uid,
-                whereOperator: '=='
-            }],
-        })
-    }
+        // TODO:Next topic
+        // this.$store.dispatch('getProfileImageDataUrl')
+        // this.previewImg = this.$store.getters.acquireProfileImageFromSession
+
+        // Load user profile data from firebase after 1s of page mounted
+        setTimeout(() => {
+            this.$store.dispatch('getCollectionData', {
+                firstAccessCode: 'profile',
+                method: 'get',
+                collectionKey: 'account',
+                docId: this.getFirebaseUserInfo.uid
+            })
+
+            this.$store.dispatch('getAllImages')
+        }, 1000);
+    },
 }
 </script>
 <style scoped>
+.profile-image-preview {
+    position: relative;
+    margin: 0 auto;
+    width: 180px;
+    height: 180px;
+    /* background-color: yellow; */
+    border-radius: 50%;
+    /* overflow: hidden; */
+    border: 2px solid var(--color-g-web);
+    /* box-shadow: 2px 2px 4px black, -2px -2px 4px black; */
+}
+
+.btn-camera-img {
+    position: absolute;
+    right: 0;
+    bottom: 5%;
+    padding: 0 .25rem;
+    background-color: white;
+    border: 2px solid var(--color-g-web);
+    width: 50px;
+    height: 50px;
+    border-radius: 25%;
+    cursor: pointer;
+}
+
+.btn-camera-img:hover {
+    background-color: var(--color-pale-g-web);
+}
+
+.image-choose-upload {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.image-choose-upload>* {
+    padding: .125rem .5rem;
+    font-size: 1.125rem;
+    border: none;
+}
+
+.profile-image-preview:hover .image-choose-upload {
+    top: 50%;
+}
+
 .profile-layout {
     display: flex;
     flex-direction: column;
@@ -176,47 +256,43 @@ export default {
     margin-bottom: 1rem;
 }
 
-.user-info-layout {
-    width: fit-content;
-    border: 1px solid var(--color-g-web);
-    border-radius: 4px;
-    overflow: hidden;
+.profile-image {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.profile-img-layout {
-    position: relative;
+.nav-tabs {
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
-.profile-img-layout a {
-    text-decoration: none;
-    position: absolute;
-    bottom: 0;
-    right: 4px;
+.nav-tabs .nav-link {
+    color: var(--color-black);
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    /* border: none; */
+    font-weight: bold;
     color: var(--color-g-web);
+    border-bottom: 4px solid var(--color-g-web);
 }
 
-.profile-img-layout>img {
-    width: 150px;
+.gallery {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
 }
 
-.exam-result-layout table tbody tr {
-    cursor: pointer;
+.gallery>div {
+    flex: 0 0 calc((100% - 1.5rem) / 4);
 }
 
-.left-icon,
-.right-icon {
-    color: white;
-    height: fit-content;
-    width: fit-content;
-    background-color: var(--color-g-web);
-    padding: .25rem .5rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all .3s linear;
-}
-
-.left-icon:hover,
-.right-icon:hover {
-    box-shadow: 2px 0 4px black;
+.gallery>div>img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
 }
 </style>
