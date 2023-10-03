@@ -1,6 +1,6 @@
 <template>
     <section class="exam-result-layout px-3 py-5">
-        <h4 class="text-center">試験の履歴</h4>
+        <h4 class="text-center">全試験履歴</h4>
         <div class="ps-3 pe-3">
 
             <div v-if="filterAnswersData.length != 0"

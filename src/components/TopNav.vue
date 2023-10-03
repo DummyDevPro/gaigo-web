@@ -102,5 +102,6 @@ export default {
 .btn-logout:hover {
     color: white;
     outline: 1px solid white;
+    background-color: transparent;
 }
 </style>

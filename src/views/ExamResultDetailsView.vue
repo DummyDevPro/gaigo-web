@@ -63,7 +63,7 @@
                         :class="currentIndex == (answerData['answers'].length - 1) ? 'btn-remove' : ''">次</button>
 
                     <button @click="backToProfile" class="btn btn-success"
-                        v-if="currentIndex == (answerData['answers'].length - 1)">プロフィールへ戻る</button>
+                        v-if="currentIndex == (answerData['answers'].length - 1)">試験履歴へ戻る</button>
                 </div>
             </div>
         </div>

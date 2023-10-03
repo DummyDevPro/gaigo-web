@@ -98,7 +98,7 @@ export default {
         addNewDocumentFB(obj, (response) => {
             if (response != null) {
                 router.replace({
-                    name: 'user-profile'
+                    name: 'user-exam-history'
                 })
             }
         })
