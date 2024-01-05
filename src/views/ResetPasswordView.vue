@@ -57,10 +57,12 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('resetPasswordLinkValidCheck',
-            {
-                'oobCode': this.oobCode
-            })
+        setTimeout(() => {
+            this.$store.dispatch('resetPasswordLinkValidCheck',
+                {
+                    'oobCode': this.oobCode
+                })
+        }, 1500);
 
         this.$store.watch(
             (state) => state.authMsg.resetPass.error,

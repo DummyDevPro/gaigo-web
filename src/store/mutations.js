@@ -1,5 +1,5 @@
 import { fileToDataUrl } from '@/assets/js/fileRWUtils'
-import { saveToLocalStorage, loadLocalStorage } from '@/bstorage'
+import { loadLocalStorage, saveToLocalStorage } from '@/bstorage'
 
 export default {
     initializeAppState: (state) => {
@@ -13,15 +13,15 @@ export default {
             state.userInfo.displayName = response.displayName
             state.userInfo.emailAddress = response.emailAddress
 
-            state.loginModalState = true
+            // state.loginModalState = true
         } else {
             state.userInfo.uid = null
             state.userInfo.displayName = null
             state.userInfo.emailAddress = null
 
-            state.loginModalMsg = `Login Error : (${response.code})`
+            // state.loginModalMsg = `Login Error : (${response.code})`
 
-            state.loginModalState = false
+            // state.loginModalState = false
         }
 
         saveToLocalStorage(state.userInfo)
@@ -62,5 +62,11 @@ export default {
     },
     handleFileDownloadListUpState: (state, obj) => {
         state.profile.allImages = obj.allImages
+    },
+    alertMsg: (state, obj) => {
+        state.alertMsg.status = obj.myStatus
+        state.alertMsg.message = obj.code ? obj.code : null
+        state.alertMsg.time = Date.now()
+        state.alertMsg.extraMsg = obj.extraMsg ? obj.extraMsg : null
     }
 }

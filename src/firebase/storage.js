@@ -1,7 +1,6 @@
 import { app } from './setup'
 import { auth } from './auth'
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from 'firebase/storage'
-import { saveToLocalStorage } from '@/bstorage';
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
 const storage = getStorage(app);
@@ -43,46 +42,7 @@ async function handleFileDownloadListUp(callback) {
     } catch (error) {
         callback({ ...error, 'myStatus': 'error' })
     }
-
-    // await handleListAll(rootFolderRef, (res) => {
-    //     let allImages = []
-    //     if (res.myStatus === 'success') {
-    //         res.allImagesRef.forEach(item => {
-    //             getDownloadURL(item).then((res) => {
-    //                 allImages.push(res)
-    //             })
-    //         });
-    //         callback({ 'myStatus': 'success', allImages: allImages })
-    //     } else {
-    //         callback(res)
-    //     }
-    // });
 }
-
-// async function handleListAll(ref, callback) {
-//     let tempArray = [];
-
-//     async function recursive(ref) {
-//         try {
-//             let res = await listAll(ref)
-//             res.prefixes.forEach((folderRef) => {
-//                 console.log(folderRef);
-//                 recursive(folderRef)
-//             });
-
-//             res.items.forEach((itemRef) => {
-//                 tempArray.push(itemRef)
-//             });
-
-//         } catch (error) {
-//             callback({ ...error, 'myStatus': 'error' })
-//         } finally {
-//             callback({ 'myStatus': 'success', allImagesRef: tempArray })
-//         }
-//     }
-
-//     await recursive(ref)
-// }
 
 function downloadUrl(ref, callback) {
     getDownloadURL(ref).then((url) => {
@@ -104,16 +64,6 @@ function uploadImage(file, fileType, saveFileType, callback) {
 
     uploadBytes(imgStorageRef, file).then((ss) => {
         downloadUrl(imgStorageRef, callback)
-        // Image file read & write
-        // const reader = new FileReader
-        // reader.onload = e => {
-        //     let storeObj = {}
-        //     storeObj[`${saveFileType}-${fileType}`] = e.target.result
-        //     saveToLocalStorage(storeObj)
-        // }
-        // reader.readAsDataURL(file)
-
-        // callback({ 'myStatus': 'success', 'imageDataUrl': '' })
     }).catch((error) => {
         callback({ ...error, 'myStatus': 'error' })
     })

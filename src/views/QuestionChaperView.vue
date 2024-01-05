@@ -134,10 +134,15 @@ export default {
                     }
                 });
                 this.$store.dispatch('addNewDocument', {
-                    'answers': this.questionsList,
-                    'total-correct-count': totalTrueCount,
-                    'total-question-count': this.questionsList.length,
-                    'chapter-code-id': this.chapter
+                    dataObj: {
+                        'answers': this.questionsList,
+                        'total-correct-count': totalTrueCount,
+                        'total-question-count': this.questionsList.length,
+                        'chapter-code-id': this.chapter,
+                    },
+                    collectionName: 'user_answers',
+                    requireUserInfo: true,
+                    redirectPath: 'user-exam-history'
                 })
             }
         }
@@ -185,15 +190,17 @@ export default {
             }
         )
 
-        this.$store.dispatch('getCollectionData', {
-            firstAccessCode: this.questionName,
-            method: 'get',
-            collectionKey: 'question',
-            where: [{
-                whereValue: this.chapterId,
-                whereOperator: '=='
-            }],
-        })
+        setTimeout(() => {
+            this.$store.dispatch('getCollectionData', {
+                firstAccessCode: this.questionName,
+                method: 'get',
+                collectionKey: 'question',
+                where: [{
+                    whereValue: this.chapterId,
+                    whereOperator: '=='
+                }],
+            })
+        }, 1500);
 
         this.overallContent = this.$store.getters.acquireOneChapterData({ 'questionName': this.questionName, 'chapterId': this.chapterId })
     },

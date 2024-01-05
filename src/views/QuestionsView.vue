@@ -3,7 +3,10 @@
         <div class="col-12 col-sm-12 col-md-12 col-lg-6 m-auto accordion" id="accordionExample">
             <div v-if="!getChaptersData" class="loading">
             </div>
-            <div class="accordion-item" v-for="ques in getChaptersData">
+            <div v-else-if="getChaptersData.length == 0" class="text-center">
+                問題はまだ作成してません。
+            </div>
+            <div v-else class="accordion-item" v-for="ques in getChaptersData">
                 <h2 class="accordion-header" :id="'heading' + ques['docId']">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         :data-bs-target="'#' + 'collapse' + ques['docId']" aria-expanded="true"
@@ -32,30 +35,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="row g-4">
-            <div class="col-12 col-sm-12 col-md-12 col-lg-6" v-for="ques in getChaptersData">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ques['chapter-title'] }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ ques['chapter-subtitle'] }}</h6>
-                        <hr>
-                        <ul>
-                            <li v-for="detail in ques['details']">
-                                {{ detail }}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-footer">
-                        <router-link :to="{
-                            name: 'questions-chapter',
-                            params: {
-                                'chapter': ques['chapter-code-id']
-                            }
-                        }" class="btn btn-primary">チャレンジ</router-link>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 
@@ -69,18 +48,21 @@ export default {
     },
     computed: {
         getChaptersData() {
-            return this.$store.getters.acquireChapterData(this.collectionName)
+            let allChaptersList = this.$store.getters.acquireChapterData(this.collectionName)
+            if (allChaptersList && allChaptersList.length > 0) {
+                allChaptersList.sort((a, b) => a['chapter-code-id'].split('-')[2] - b['chapter-code-id'].split('-')[2])
+            }
+            return allChaptersList
         }
     },
     mounted() {
-        // java-bronze
-        this.$store.dispatch('getCollectionData', {
-            firstAccessCode: this.collectionName,
-            method: 'get',
-            collectionKey: 'chapter',
-            // whereValue: this.$store.getters.acquireUserInfo.uid,
-            // whereOperator: '=='
-        })
+        setTimeout(() => {
+            this.$store.dispatch('getCollectionData', {
+                firstAccessCode: this.collectionName,
+                method: 'get',
+                collectionKey: 'chapter',
+            })
+        }, 1500);
     }
 }
 </script>

@@ -15,6 +15,7 @@ import CreateAccountViewVue from '@/views/CreateAccountView.vue'
 import ResetPasswordViewVue from '@/views/ResetPasswordView.vue'
 // import DashboardHomeViewVue from '@/views/DashboardHomeView.vue'
 import ExamHistoryViewVue from '@/views/ExamHistoryView.vue'
+import CreateExamViewVue from '@/views/CreateExamView.vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '../store/index'
@@ -25,108 +26,142 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeViewVue,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/renew-pass',
     name: 'renew-pass',
     component: RenewPasswordViewVue,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/create-acccount',
     name: 'create-acccount',
     component: CreateAccountViewVue,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/reset-password',
     name: 'reset-password',
     component: ResetPasswordViewVue,
-    loginFlg: false,
+    meta: {
+      requiresAuth: false
+    },
     props: true,
   },
   {
     path: '/contact-us',
     name: 'contact-us',
     component: ContactUsViewVue,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/student-projects',
     name: 'student-projects',
     component: OurStuedntProjectViewVue,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/all-mondai',
     name: 'all-mondai',
     component: AllQuestionsViewVue,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/profile',
     name: 'user-profile',
     component: UserProfileViewVue,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/create-exam',
+    name: 'create-exam',
+    component: CreateExamViewVue,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/exam-result/:examId',
     name: 'exam-result-by-id',
     component: ExamResultDetailsViewVue,
     props: true,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/web-pamphlet',
     name: 'web-pamphlet',
     component: PamphletViewVue,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/all-years-schedule',
     name: 'all-years-schedule',
     component: AllYearsScheduleViewVue,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/selected-years-schedule/:year/:grade',
     name: 'selected-years-schedule',
     component: ScheduleViewVue,
     props: true,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   },
   {
     path: '/all-mondai/questions/:specific',
     name: 'questions',
     component: QuestionsViewVue,
     props: true,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/all-mondai/questions/:specific/:chapter',
     name: 'questions-chapter',
     component: QuestionChaperViewVue,
     props: true,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
   },
-  // {
-  //   path: '/user/dashboard',
-  //   name: 'user-dashboard-home',
-  //   component: DashboardHomeViewVue,
-  //   loginFlg: true
-  // },
   {
     path: '/user/exam/history',
     name: 'user-exam-history',
     component: ExamHistoryViewVue,
-    loginFlg: true
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/404',
     name: 'not-found',
     component: ErrorPage,
-    loginFlg: false
+    meta: {
+      requiresAuth: false
+    }
   }
 ]
 
@@ -148,7 +183,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const routeNameCheck = routes.findIndex((route) => to.name == route.name)
   if (routeNameCheck != -1) {
-    if (routes[routeNameCheck].loginFlg && store.getters.acquireUserID == null) {
+    if (routes[routeNameCheck].meta.requiresAuth && store.getters.acquireUserID == null) {
       next({ name: 'home', replace: true })
     } else {
       next()
@@ -156,6 +191,10 @@ router.beforeEach((to, from, next) => {
   } else {
     next({ name: 'not-found', replace: true })
   }
+  store.state.alertMsg.status = null
+  store.state.alertMsg.message = null
+  store.state.alertMsg.time = null
+  store.state.alertMsg.extraMsg = null
 })
 
 export default router

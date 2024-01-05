@@ -22,17 +22,13 @@ logEvent(analytics, "firebase-authorized" + serverTimestamp)
 
 function handleSignInWithEmailAndPassword(email, password, callback) {
     // setPersistence(auth, browserSessionPersistence).then(() => {
-    signInWithEmailAndPassword(auth, email, password).then((res) => {
-        console.log(res);
-        callback({ 'uid': res.user.uid, 'displayName': res.user.displayName, 'emailAddress': res.user.email, 'myStatus': 'success' })
-    })
+    signInWithEmailAndPassword(auth, email, password)
+        .then((res) => {
+            callback({ 'uid': res.user.uid, 'displayName': res.user.displayName, 'emailAddress': res.user.email, 'myStatus': 'success' })
+        })
         .catch((error) => {
             callback({ 'myStatus': 'error', 'uid': null, ...error })
         })
-    // })
-    //     .catch((error) => {
-    //         callback({ 'myStatus': 'error', 'uid': null, ...error })
-    //     })
 }
 
 function handleCreateUserWithEmailAndPassword(email, password) {
@@ -83,9 +79,9 @@ function handleVerifyPasswordResetCode(actionCode, callback) {
 
 function handleSendPasswordResetEmail(email, callback) {
     sendPasswordResetEmail(auth, email).then(() => {
-        callback({ 'myStatus': 'success' })
+        callback({ 'myStatus': 'success', 'extraMsg': `${email}にパスワードリセットするためのURLを送りました。` })
     }).catch((error) => {
-        callback({ 'myStatus': 'error', ...error })
+        callback({ 'myStatus': 'error', 'extraMsg': `${email}のユーザーアカウントがありません。`, ...error })
     })
 }
 

@@ -43,19 +43,12 @@ export default {
         return state.collectionData['userProfileData'][saveCollectionName]
     },
     acquireProfileImageFromSession: state => {
-        // console.log('-----');
-        // console.log(state.profile.profileImageUrl.length);
-        // if (state.profile.profileImageUrl.length == 0) {
-        //     loadLocalStorage('profile-image', (datUrl) => {
-        //         console.log('asdfghj');
-        //         return state.profile.profileImageUrl = datUrl
-        //     })
-        // }
-        // console.log('-----');
         return state.profile.profileImageUrl
     },
     acquireAllImages: state => {
-        console.log('Repunch');
         return state.profile.allImages
+    },
+    acquireAllQuestionsNameData: state => saveCollectionName => {
+        return state.collectionData['allQuestionsNameData'][saveCollectionName]
     }
 }

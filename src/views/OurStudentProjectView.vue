@@ -1,10 +1,11 @@
 <template>
-    <div v-if="projectsList.length == 0" class="text-center py-5">
-        <strong>{{ projectLoadMsg }}</strong>
+    <div v-if="!getAllStudentProjects" class="loading"></div>
+    <div v-else-if="getAllStudentProjects.length == 0">
+        Students' Projects are not found!
     </div>
     <div v-else class="row gy-3 py-5 px-3 m-0">
         <!-- d-flex flex-wrap px-3 py-5 gap-4 -->
-        <div v-for="project in projectsList" class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <div v-for="project in getAllStudentProjects" class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <div class="card">
                 <!-- style="width: 18rem;" -->
                 <!-- <strong class="image-info position-absolute">Image file will add on next update.</strong> -->
@@ -24,28 +25,19 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            projectsList: [],
-            projectLoadMsg: `Loading Students' Projects....`
+    computed: {
+        getAllStudentProjects() {
+            return this.$store.getters.acquireProjectData('all-projects')
         }
     },
     mounted() {
-        this.$store.watch(
-            (_, getters) => getters.acquireProjectData('all-projects'),
-            (newValue, _) => {
-                this.projectsList = newValue
-                if (this.projectsList.length == 0) {
-                    this.projectLoadMsg = `Students' Projects are not found!`
-                }
-            }
-        )
-
-        this.$store.dispatch('getCollectionData', {
-            firstAccessCode: 'all',
-            method: 'get',
-            collectionKey: 'project'
-        })
+        setTimeout(() => {
+            this.$store.dispatch('getCollectionData', {
+                firstAccessCode: 'all',
+                method: 'get',
+                collectionKey: 'project'
+            })
+        }, 1500);
     }
 }
 </script>

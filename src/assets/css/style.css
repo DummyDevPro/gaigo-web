@@ -79,6 +79,23 @@ html {
   width: 100%;
 }
 
+ul.warning {
+  --icon-space: 1.3em;
+  list-style: none;
+  padding: 0;
+}
+
+ul.warning > li {
+  padding-left: var(--icon-space);
+}
+
+ul.warning > li:before {
+  content: "★";
+  display: inline-block;
+  margin-left: calc(var(--icon-space) * -1);
+  width: var(--icon-space);
+}
+
 @keyframes loadingFadeInOut {
   0% {
     opacity: 0.25;

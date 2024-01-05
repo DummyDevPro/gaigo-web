@@ -12,15 +12,20 @@ import {
     setDoc,
     getDoc,
     addDoc,
-    serverTimestamp,
-    updateDoc
+    serverTimestamp
 } from "firebase/firestore";
+import router from '@/router';
 
 const db = getFirestore(app);
 
 logEvent(analytics, "make-db-connection");
 
 async function readSingleDocument(collectionName, docId, callback) {
+    if (!auth.currentUser) {
+        callback({ 'code': 'Access Denined!', 'myStatus': 'error' })
+        return;
+    }
+
     try {
         const docRef = doc(db, collectionName, docId);
         const docSnap = await getDoc(docRef);
@@ -31,6 +36,11 @@ async function readSingleDocument(collectionName, docId, callback) {
 }
 
 async function addNewDocumentByCustomDocId(collectionName, docId, data, callback) {
+    if (!auth.currentUser) {
+        callback({ 'code': 'Access Denined!', 'myStatus': 'error' })
+        return;
+    }
+
     try {
         const cityRef = doc(db, collectionName, docId)
         await setDoc(cityRef, data, { merge: true })
@@ -41,6 +51,10 @@ async function addNewDocumentByCustomDocId(collectionName, docId, data, callback
 }
 
 async function readCollectionFB(collectionName, condition, order, callback) {
+    if (!auth.currentUser && router.currentRoute.value.meta.requiresAuth) {
+        callback({ 'code': 'Access Denined!', 'myStatus': 'error' })
+        return;
+    }
 
     try {
         let responseArr = [];
@@ -54,18 +68,25 @@ async function readCollectionFB(collectionName, condition, order, callback) {
 
         callback({ 'data': responseArr, 'myStatus': 'success' })
     } catch (error) {
-        console.error(error)
         callback({ ...error, 'myStatus': 'error' })
     }
 }
 
-async function addNewDocumentFB(data, callback, collectionName = 'user_answers') {
+async function addNewDocumentFB(data, callback) {
+    if (!auth.currentUser) {
+        callback({ 'code': 'Access Denined!', 'myStatus': 'error' })
+        return;
+    }
+
     try {
-        const docRef = await addDoc(collection(db, collectionName), {
-            ...data,
+        const dataObj = data.requireUserInfo ? {
+            ...data.dataObj,
             'uid': auth.currentUser.uid,
             'uploaded-time': serverTimestamp()
-        });
+        } : { ...data.dataObj }
+        console.log(dataObj);
+        console.log(data);
+        const docRef = await addDoc(collection(db, data.collectionName), dataObj);
 
         callback({ 'data': docRef.id, 'myStatus': 'success' })
     } catch (error) {
@@ -74,19 +95,13 @@ async function addNewDocumentFB(data, callback, collectionName = 'user_answers')
 }
 
 async function updateExistingDocumentFB(data, collectionName, docId, callback) {
+    if (!auth.currentUser) {
+        callback({ 'code': 'Access Denined!', 'myStatus': 'error' })
+        return;
+    }
+
     try {
-        // readSingleDocument(collectionName, docId, ((response) => {
         addNewDocumentByCustomDocId(collectionName, docId, data, callback)
-        // if (response.data) {
-        //     updateDoc(doc(db, collectionName, docId), data).then((res) => {
-        //         callback({ ...data, 'myStatus': 'success' })
-        //     }).catch((error) => {
-        //         callback({ ...error, 'myStatus': 'error' })
-        //     })
-        // } else {
-        //     addNewDocumentFB(data, callback, collectionName)
-        // }
-        // }))
     } catch (error) {
         callback({ ...error, 'myStatus': 'error' })
     }

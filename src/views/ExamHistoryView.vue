@@ -137,15 +137,17 @@ export default {
             }
         )
 
-        this.$store.dispatch('getCollectionData', {
-            firstAccessCode: 'all',
-            method: 'get',
-            collectionKey: 'answer',
-            where: [{
-                whereValue: this.$store.getters.acquireUserInfo.uid,
-                whereOperator: '=='
-            }],
-        })
+        setTimeout(() => {
+            this.$store.dispatch('getCollectionData', {
+                firstAccessCode: 'all',
+                method: 'get',
+                collectionKey: 'answer',
+                where: [{
+                    whereValue: this.$store.getters.acquireUserInfo.uid,
+                    whereOperator: '=='
+                }],
+            })
+        }, 1500);
     }
 }
 </script>

@@ -101,21 +101,23 @@ export default {
             }
         )
 
-        this.$store.dispatch('getCollectionData', {
-            firstAccessCode: 'year-schedule',
-            method: 'get',
-            collectionKey: 'schedules',
-            where: [
-                {
-                    whereValue: parseInt(this.year),
-                    whereOperator: '=='
-                },
-                {
-                    whereValue: this.grade,
-                    whereOperator: '=='
-                }
-            ],
-        })
+        setTimeout(() => {
+            this.$store.dispatch('getCollectionData', {
+                firstAccessCode: 'year-schedule',
+                method: 'get',
+                collectionKey: 'schedules',
+                where: [
+                    {
+                        whereValue: parseInt(this.year),
+                        whereOperator: '=='
+                    },
+                    {
+                        whereValue: this.grade,
+                        whereOperator: '=='
+                    }
+                ],
+            })
+        }, 1500);
     }
 }
 </script>

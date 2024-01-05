@@ -40,7 +40,7 @@ export default {
         this.$store.watch(
             (state) => state.authMsg.renewPass.error,
             () => {
-                this.error = `【${this.email}】のユーザーアカウントのがありません。`
+                this.error = `【${this.email}】のユーザーアカウントがありません。`
             },
             { deep: true }
         )

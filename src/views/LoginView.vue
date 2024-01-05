@@ -7,14 +7,25 @@
             <h3 class="text-center">ログイン</h3>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">メールアドレス<small class="text-danger">*</small></label>
-                <input v-model="email" type="email" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" required>
-                <div id="emailHelp" class="form-text">あなたのメールを他の人と共有することは決してありません。</div>
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <i class="bi bi-envelope-at-fill"></i>
+                    </div>
+                    <input v-model="email" type="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" required>
+                </div>
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">パスワード<small class="text-danger">*</small></label>
-                <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" required>
+                <div class="input-group mb-3">
+                    <input v-model="password" :type="pwdShowHide ? 'password' : 'text'" class="form-control"
+                        id="exampleInputPassword1" required>
+                    <div class="input-group-text" @click="pwdShowHideAction">
+                        <i class="bi" :class="pwdShowHide ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
+                        <!-- <i class="bi bi-eye-slash-fill"></i> -->
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">
@@ -38,7 +49,8 @@ export default {
         return {
             'email': '',
             'password': '',
-            'errorMsg': ''
+            'errorMsg': '',
+            'pwdShowHide': true
         }
     },
     methods: {
@@ -49,6 +61,9 @@ export default {
                     'password': this.password
                 }
             )
+        },
+        pwdShowHideAction() {
+            this.pwdShowHide = !this.pwdShowHide
         }
     },
     mounted() {

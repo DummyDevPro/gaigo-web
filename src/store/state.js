@@ -23,7 +23,8 @@ export default {
         'questionData': {},
         'answerData': {},
         'projectData': {},
-        'schedulesData': {}
+        'schedulesData': {},
+        'allQuestionsNameData': {}
     },
     collectionDataType: {
         'account': 'userProfileData',
@@ -31,6 +32,7 @@ export default {
         'question': 'questionData',
         'answer': 'answerData',
         'project': 'projectData',
+        'question-name-list': 'allQuestionsNameData',
         'schedules': 'schedulesData'
     },
     errorToast: null,
@@ -55,5 +57,11 @@ export default {
                 time: ''
             }
         }
+    },
+    alertMsg: {
+        status: null,
+        message: null,
+        time: null,
+        extraMsg: null
     }
 }

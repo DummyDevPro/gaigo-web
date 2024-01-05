@@ -3,10 +3,26 @@
     <div class="text-center recent-activity bg-light py-5">
         <span class="fs-6 text-secondary">There is no recent activity.</span>
     </div>
+
     <div>
         <div class="calendar"></div>
     </div>
-    <div class="d-flex gap-3 px-3 my-5">
+
+    <div class="row text-center gy-4 p-4 m-0">
+        <div class="col-12 col-sm-6 col-md-4">
+            <a href="" class="btn btn-primary d-block py-5 fs-6">メモ</a>
+        </div>
+        <!-- <div class="col-12 col-sm-6 col-md-4">
+            <router-link :to="{ name: 'create-exam' }" class="btn btn-primary d-block py-5 fs-6">問題作成</router-link>
+        </div> -->
+        <div class="col-12 col-sm-6 col-md-4">
+            <router-link :to="{ name: 'user-exam-history' }" class="btn btn-primary d-block py-5 fs-6">試験歴</router-link>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <a href="" class="btn btn-primary d-block py-5 fs-6">作品</a>
+        </div>
+    </div>
+    <!-- <div class="d-flex gap-3 px-3 my-5 menu-container">
         <a href="" class="memos">
             <div class="icon-wrapper">
                 <div class="icons">
@@ -16,6 +32,17 @@
             </div>
             <h3 class="title text-center">メモ</h3>
         </a>
+
+        <router-link :to="{ name: 'create-exam' }" class="create-exam">
+            <div class="icon-wrapper">
+                <div class="icons">
+                    <i class="fs-3 bi bi-question-lg mortarboard"></i>
+                    <i class="fs-1 bi bi-box-fill text-black"></i>
+                </div>
+            </div>
+            <h3 class="title text-center">問題作成</h3>
+        </router-link>
+
         <router-link :to="{ name: 'user-exam-history' }" class="exams">
             <div class="icon-wrapper">
                 <div class="icons">
@@ -25,6 +52,7 @@
             </div>
             <h3 class="title text-center">試験歴</h3>
         </router-link>
+
         <a href="" class="projects">
             <div class="icon-wrapper">
                 <div class="icons">
@@ -35,7 +63,7 @@
             </div>
             <h3 class="title text-center">作品</h3>
         </a>
-    </div>
+    </div> -->
 </template>
 <script>
 import CurrentDateTimeComp from '@/components/CurrentDateTimeComp.vue';
@@ -46,6 +74,10 @@ export default {
 }
 </script>
 <style scoped>
+.menu-container {
+    flex-wrap: wrap;
+}
+
 .d-flex>a {
     flex: 1;
     color: var(--color-white);

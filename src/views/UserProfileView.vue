@@ -119,7 +119,7 @@ export default {
             this.$refs.fileInput.click()
         },
         loadAllImagesBtnClick() {
-            console.log('----');
+            // console.log('----');
             this.$store.dispatch('getAllImages')
         }
     },
@@ -153,10 +153,10 @@ export default {
             }
         },
         loadAllImages(newVal, oldVal) {
-            console.log('+++');
-            console.log(newVal);
+            // console.log('+++');
+            // console.log(newVal);
             setTimeout(() => {
-                console.log('Delay');
+                // console.log('Delay');
                 if (Array.isArray(newVal)) {
                     this.galleryData.clear()
                     const sort2 = [...newVal].sort()
@@ -198,7 +198,7 @@ export default {
             })
 
             this.$store.dispatch('getAllImages')
-        }, 1000);
+        }, 1500);
     },
 }
 </script>

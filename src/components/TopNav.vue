@@ -1,5 +1,5 @@
 <template>
-    <nav id="top-nav-bar" class="navbar navbar-expand-md navbar-dark g-web-bg sticky-top py-3">
+    <nav id="top-nav-bar" class="navbar navbar-expand-lg navbar-dark g-web-bg sticky-top py-3">
         <div class="container-fluid">
             <router-link :to="{ name: 'home' }" class="navbar-brand" aria-current="page">
                 Webプログラミングコース
@@ -94,6 +94,7 @@ export default {
 }
 
 .btn-logout {
+    width: fit-content;
     background-color: var(--color-white);
     color: var(--color-g-web);
     transition: all .2s ease;

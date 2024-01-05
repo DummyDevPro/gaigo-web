@@ -28,6 +28,9 @@ export default {
     loginAction(context, { 'email': email, 'password': password }) {
         handleSignInWithEmailAndPassword(email, password, (response) => {
             context.commit('loginActionState', response)
+            if (response.myStatus == 'error') {
+                context.commit('alertMsg', { ...response })
+            }
         })
     },
     logoutAction(context) {
@@ -43,6 +46,7 @@ export default {
         context.commit('updateLogoutModalState')
     },
     getCollectionData(context, obj) {
+        console.log(obj);
         const prepareData = context
             .state
             .collectionRelation[obj.firstAccessCode][obj.method][obj.collectionKey]
@@ -65,7 +69,7 @@ export default {
                 obj.docId,
                 ((response) => {
                     if (response.myStatus == 'error') {
-                        // context.commit('updateErrorToastState', response)
+                        context.commit('alertMsg', { ...response, })
                     } else {
                         context.commit('getCollectionDataState',
                             {
@@ -82,7 +86,7 @@ export default {
                 , order
                 , (response) => {
                     if (response.myStatus == 'error') {
-                        // context.commit('updateErrorToastState', response)
+                        context.commit('alertMsg', { ...response, })
                     } else {
                         context.commit('getCollectionDataState',
                             {
@@ -95,13 +99,32 @@ export default {
         }
     },
     addNewDocument(context, obj) {
-        addNewDocumentFB(obj, (response) => {
-            if (response != null) {
-                router.replace({
-                    name: 'user-exam-history'
-                })
-            }
+        return new Promise((resolve, reject) => {
+            addNewDocumentFB(obj, (response) => {
+                if (response != null) {
+                    // Redirect somewhere
+                    if (obj.redirectPath != null) {
+                        router.replace({
+                            name: obj.redirectPath
+                        })
+                    } else {
+                        resolve()
+                    }
+                } else {
+                    reject()
+                }
+            })
         })
+        // addNewDocumentFB(obj, (response) => {
+        //     console.log(response);
+        //     if (response != null) {
+        //         if (obj.redirectPath != null) {
+        //             router.replace({
+        //                 name: obj.redirectPath
+        //             })
+        //         }
+        //     }
+        // })
     },
     backOneHistory(context) {
         router.go(-1);
@@ -117,12 +140,14 @@ export default {
     },
     renewPasswordByMail(context, { email: email }) {
         handleSendPasswordResetEmail(email, (response) => {
-            context.commit('shortMsg', { pageId: 'renewPass', ...response })
+            // context.commit('shortMsg', { ...response, pageId: 'renewPass' })
+            context.commit('alertMsg', { ...response, })
         })
     },
     resetPasswordLinkValidCheck(context, { oobCode: oobCode }) {
         handleVerifyPasswordResetCode(oobCode, (response) => {
-            context.commit('shortMsg', { ...response, pageId: 'resetPass' })
+            context.commit('alertMsg', { ...response, })
+            // context.commit('shortMsg', { ...response, pageId: 'resetPass' })
         })
     },
     getProfileImageDataUrl(context) {
